@@ -1,0 +1,20 @@
+services:
+  cpm:
+    container_name: caddy-proxy-manager
+    image: pentasolve/caddy-proxy-manager:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+      - "2019:2019"
+    volumes:
+      - cpm_data:/data
+      - cpm_config:/config
+    restart: unless-stopped
+
+volumes:
+  cpm_data:
+  cpm_config:

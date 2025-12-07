@@ -1,0 +1,46 @@
+# Git
+.git/
+.gitignore
+
+# GitHub
+.github/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dependencies (will be installed in container)
+node_modules/
+vendor/
+
+# Build outputs (will be built in container)
+backend/caddy-manager
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Data (mounted as volume)
+/data/
+*.db
+*.db-journal
+
+# Documentation
+*.md
+!README.md
+
+# Temp
+tmp/
+temp/
+*.tmp

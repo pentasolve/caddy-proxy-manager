@@ -1,0 +1,21 @@
+{
+    admin :2019
+}
+
+:81 {
+    handle /api/* {
+        reverse_proxy localhost:8080
+    }
+
+    handle {
+        root * /app/public
+        try_files {path} /index.html
+        file_server
+    }
+}
+
+:80 {
+    root * /data/default
+    file_server
+}
+
