@@ -201,7 +201,19 @@ func RegisterRoutes(r *gin.Engine) {
 					sslReady, actualProvider := caddy.CheckSSLStatusWithProvider(host.Domain, host.SSLProvider)
 					if sslReady && actualProvider != "" {
 						host.SSLActualProvider = actualProvider
-						db.DB.Model(&host).Update("ssl_actual_provider", actualProvider)
+						updates := map[string]interface{}{
+							"ssl_actual_provider": actualProvider,
+						}
+						if host.CertificateID == nil && (actualProvider == "letsencrypt" || actualProvider == "zerossl") {
+							cert, err := CreateACMECertificateRecord(host.Domain, actualProvider)
+							if err == nil {
+								host.CertificateID = &cert.ID
+								hosts[i].CertificateID = &cert.ID
+								updates["certificate_id"] = cert.ID
+								websocket.BroadcastMessage("cert_created", cert)
+							}
+						}
+						db.DB.Model(&host).Updates(updates)
 						hosts[i].SSLActualProvider = actualProvider
 						websocket.BroadcastMessage("host_updated", hosts[i])
 					}
@@ -212,17 +224,27 @@ func RegisterRoutes(r *gin.Engine) {
 						host.SSLStatus = "ready"
 						host.SSLError = ""
 						host.SSLActualProvider = actualProvider
-						db.DB.Model(&host).Updates(map[string]interface{}{
+						updates := map[string]interface{}{
 							"ssl_status":          "ready",
 							"ssl_error":           "",
 							"ssl_actual_provider": actualProvider,
-						})
+						}
+						if host.CertificateID == nil && (actualProvider == "letsencrypt" || actualProvider == "zerossl") {
+							cert, err := CreateACMECertificateRecord(host.Domain, actualProvider)
+							if err == nil {
+								host.CertificateID = &cert.ID
+								hosts[i].CertificateID = &cert.ID
+								updates["certificate_id"] = cert.ID
+								websocket.BroadcastMessage("cert_created", cert)
+							}
+						}
+						db.DB.Model(&host).Updates(updates)
 						hosts[i].SSLStatus = "ready"
 						hosts[i].SSLActualProvider = actualProvider
 						websocket.BroadcastMessage("host_updated", hosts[i])
 					} else {
-						errMsg, found := caddy.GetSSLError(host.Domain)
-						if found || time.Since(host.UpdatedAt) > 1*time.Minute {
+						errMsg, found := caddy.GetSSLError(host.Domain, host.CreatedAt)
+						if found || time.Since(host.UpdatedAt) > 5*time.Minute {
 							if host.SSLProvider == "auto" {
 								fallbackErr := fallbackToSelfSigned(&host)
 								if fallbackErr == nil {
@@ -319,6 +341,7 @@ func RegisterRoutes(r *gin.Engine) {
 					Domain:    host.Domain,
 					CertFile:  certPath,
 					KeyFile:   keyPath,
+					Provider:  "selfsigned",
 					ExpiresAt: expiry,
 					CreatedAt: time.Now(),
 				}
@@ -349,6 +372,12 @@ func RegisterRoutes(r *gin.Engine) {
 					h.SSLStatus = "failed"
 					h.SSLError = err.Error()
 					db.DB.Save(&h)
+					websocket.BroadcastMessage("host_updated", h)
+					return
+				}
+				if h.SSL && (h.SSLProvider == "letsencrypt" || h.SSLProvider == "zerossl" || h.SSLProvider == "auto") {
+					time.Sleep(5 * time.Second)
+					CheckAndBroadcastSSLStatus()
 				}
 			}(host)
 
@@ -438,6 +467,7 @@ func RegisterRoutes(r *gin.Engine) {
 					Domain:    host.Domain,
 					CertFile:  certPath,
 					KeyFile:   keyPath,
+					Provider:  "selfsigned",
 					ExpiresAt: expiry,
 					CreatedAt: time.Now(),
 				}
@@ -475,6 +505,11 @@ func RegisterRoutes(r *gin.Engine) {
 					h.SSLError = err.Error()
 					db.DB.Save(&h)
 					websocket.BroadcastMessage("host_updated", h)
+					return
+				}
+				if h.SSL && (h.SSLProvider == "letsencrypt" || h.SSLProvider == "zerossl" || h.SSLProvider == "auto") {
+					time.Sleep(5 * time.Second)
+					CheckAndBroadcastSSLStatus()
 				}
 			}(host)
 
@@ -518,6 +553,52 @@ func RegisterRoutes(r *gin.Engine) {
 
 			websocket.BroadcastMessage("host_deleted", gin.H{"id": id})
 			c.JSON(http.StatusOK, gin.H{"message": "deleted"})
+		})
+
+		authorized.POST("/hosts/:id/retry-ssl", func(c *gin.Context) {
+			id := c.Param("id")
+			var host models.Host
+			if err := db.DB.First(&host, id).Error; err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "host not found"})
+				return
+			}
+
+			if !host.SSL {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "SSL is not enabled for this host"})
+				return
+			}
+
+			if host.SSLProvider != "letsencrypt" && host.SSLProvider != "zerossl" && host.SSLProvider != "auto" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Retry is only available for Let's Encrypt, ZeroSSL, or Auto SSL providers"})
+				return
+			}
+
+			host.SSLStatus = "generating"
+			host.SSLError = ""
+			host.SSLActualProvider = ""
+			host.UpdatedAt = time.Now()
+
+			if err := db.DB.Save(&host).Error; err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+
+			websocket.BroadcastMessage("host_updated", host)
+
+			go func(h models.Host) {
+				if err := caddy.ApplyConfig(); err != nil {
+					h.SSLStatus = "failed"
+					h.SSLError = err.Error()
+					db.DB.Save(&h)
+					websocket.BroadcastMessage("host_updated", h)
+				}
+				time.Sleep(5 * time.Second)
+				CheckAndBroadcastSSLStatus()
+			}(host)
+
+			logAudit(c, "retry_ssl", fmt.Sprintf("Retrying SSL certificate generation for: %s", host.Domain))
+
+			c.JSON(http.StatusOK, gin.H{"message": "SSL certificate generation restarted", "host": host})
 		})
 
 		authorized.POST("/caddy/apply", func(c *gin.Context) {
@@ -568,6 +649,7 @@ func RegisterRoutes(r *gin.Engine) {
 
 				cert := models.Certificate{
 					Domain:    domain,
+					Provider:  certType,
 					Status:    "generating",
 					CreatedAt: time.Now(),
 				}
@@ -644,10 +726,16 @@ func RegisterRoutes(r *gin.Engine) {
 
 			expiry, _ := GetCertExpiry(certPath)
 
+			provider := "custom"
+			if certType == "selfsigned" {
+				provider = "selfsigned"
+			}
+
 			cert := models.Certificate{
 				Domain:    domain,
 				CertFile:  certPath,
 				KeyFile:   keyPath,
+				Provider:  provider,
 				Status:    "ready",
 				ExpiresAt: expiry,
 				CreatedAt: time.Now(),
@@ -747,6 +835,8 @@ func RegisterRoutes(r *gin.Engine) {
 
 		authorized.GET("/settings/default-page", GetDefaultPage)
 		authorized.PUT("/settings/default-page", UpdateDefaultPage)
+		authorized.GET("/settings/zerossl-eab", GetZeroSSLEAB)
+		authorized.PUT("/settings/zerossl-eab", UpdateZeroSSLEAB)
 
 		authorized.GET("/audit-logs", GetAuditLogs)
 		authorized.GET("/streams", GetStreams)
@@ -801,6 +891,54 @@ func UpdateDefaultPage(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "default page updated"})
 }
+
+func GetZeroSSLEAB(c *gin.Context) {
+	var kidSetting, hmacSetting models.Setting
+	kid := ""
+	hmacKey := ""
+	if err := db.DB.Where("key = ?", "zerossl_eab_kid").First(&kidSetting).Error; err == nil {
+		kid = kidSetting.Value
+	}
+	if err := db.DB.Where("key = ?", "zerossl_eab_hmac_key").First(&hmacSetting).Error; err == nil {
+		if len(hmacSetting.Value) > 8 {
+			hmacKey = hmacSetting.Value[:4] + "****" + hmacSetting.Value[len(hmacSetting.Value)-4:]
+		} else if hmacSetting.Value != "" {
+			hmacKey = "****"
+		}
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"kid":        kid,
+		"hmac_key":   hmacKey,
+		"configured": kid != "" && hmacSetting.Value != "",
+	})
+}
+
+func UpdateZeroSSLEAB(c *gin.Context) {
+	var input struct {
+		KID     string `json:"kid"`
+		HMACKey string `json:"hmac_key"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	kidSetting := models.Setting{Key: "zerossl_eab_kid", Value: input.KID}
+	if err := db.DB.Where("key = ?", "zerossl_eab_kid").Assign(kidSetting).FirstOrCreate(&kidSetting).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save EAB KID"})
+		return
+	}
+
+	hmacSetting := models.Setting{Key: "zerossl_eab_hmac_key", Value: input.HMACKey}
+	if err := db.DB.Where("key = ?", "zerossl_eab_hmac_key").Assign(hmacSetting).FirstOrCreate(&hmacSetting).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save EAB HMAC Key"})
+		return
+	}
+
+	logAudit(c, "update_zerossl_eab", "Updated ZeroSSL EAB credentials")
+	c.JSON(http.StatusOK, gin.H{"message": "ZeroSSL EAB credentials updated"})
+}
+
 func CheckAndAutoRenewCertificates() {
 	var certs []models.Certificate
 	if err := db.DB.Where("auto_renew = ?", true).Find(&certs).Error; err != nil {
@@ -896,8 +1034,16 @@ func CheckAndBroadcastSSLStatus() {
 			host.SSLError = ""
 			host.SSLActualProvider = actualProvider
 			changed = true
+
+			if host.CertificateID == nil && (actualProvider == "letsencrypt" || actualProvider == "zerossl") {
+				cert, err := CreateACMECertificateRecord(host.Domain, actualProvider)
+				if err == nil {
+					host.CertificateID = &cert.ID
+					websocket.BroadcastMessage("cert_created", cert)
+				}
+			}
 		} else {
-			errMsg, found := caddy.GetSSLError(host.Domain)
+			errMsg, found := caddy.GetSSLError(host.Domain, host.CreatedAt)
 			if found || time.Since(host.UpdatedAt) > 5*time.Minute {
 				if host.SSLProvider == "auto" {
 					fallbackErr := fallbackToSelfSigned(&host)

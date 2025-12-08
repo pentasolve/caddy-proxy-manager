@@ -93,7 +93,7 @@ func GenerateACMECert(domain, provider, email string, useDNS bool, dnsProvider, 
 		}
 	} else if provider == "zerossl" {
 		searchPaths = []string{
-			filepath.Join(basePath, "acme.zerossl.com-v2-DV90", domain, domain+".crt"),
+			filepath.Join(basePath, "acme.zerossl.com-v2-dv90", domain, domain+".crt"),
 		}
 	}
 
@@ -175,6 +175,7 @@ func fallbackToSelfSigned(host *models.Host) error {
 		Domain:    host.Domain,
 		CertFile:  certPath,
 		KeyFile:   keyPath,
+		Provider:  "selfsigned",
 		ExpiresAt: expiry,
 		CreatedAt: time.Now(),
 	}
@@ -185,3 +186,42 @@ func fallbackToSelfSigned(host *models.Host) error {
 	host.CertificateID = &cert.ID
 	return nil
 }
+
+func CreateACMECertificateRecord(domain string, provider string) (*models.Certificate, error) {
+	baseDir := "/data/caddy/certificates"
+
+	var certPath, keyPath string
+	switch provider {
+	case "letsencrypt":
+		certPath = fmt.Sprintf("%s/acme-v02.api.letsencrypt.org-directory/%s/%s.crt", baseDir, domain, domain)
+		keyPath = fmt.Sprintf("%s/acme-v02.api.letsencrypt.org-directory/%s/%s.key", baseDir, domain, domain)
+	case "zerossl":
+		certPath = fmt.Sprintf("%s/acme.zerossl.com-v2-dv90/%s/%s.crt", baseDir, domain, domain)
+		keyPath = fmt.Sprintf("%s/acme.zerossl.com-v2-dv90/%s/%s.key", baseDir, domain, domain)
+	default:
+		return nil, fmt.Errorf("unsupported provider: %s", provider)
+	}
+
+	if _, err := os.Stat(certPath); os.IsNotExist(err) {
+		return nil, fmt.Errorf("certificate file not found: %s", certPath)
+	}
+
+	expiry, _ := GetCertExpiry(certPath)
+
+	cert := models.Certificate{
+		Domain:    domain,
+		CertFile:  certPath,
+		KeyFile:   keyPath,
+		Provider:  provider,
+		Status:    "ready",
+		ExpiresAt: expiry,
+		CreatedAt: time.Now(),
+	}
+
+	if err := db.DB.Create(&cert).Error; err != nil {
+		return nil, fmt.Errorf("failed to save cert record: %w", err)
+	}
+
+	return &cert, nil
+}
+
