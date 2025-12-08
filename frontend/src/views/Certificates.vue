@@ -16,6 +16,7 @@ interface Certificate {
   status?: string
   error?: string
   auto_renew?: boolean
+  provider?: string
 }
 
 const certs = ref<Certificate[]>([])
@@ -231,6 +232,16 @@ const getExpiryColor = (status: string) => {
     }
 }
 
+
+const formatProvider = (provider?: string) => {
+    if (!provider) return 'Unknown'
+    const p = provider.toLowerCase()
+    if (p === 'letsencrypt') return "Let's Encrypt"
+    if (p === 'zerossl') return "ZeroSSL"
+    if (p === 'selfsigned') return "Self Signed"
+    return provider.charAt(0).toUpperCase() + provider.slice(1)
+}
+
 import { useWebSocket } from '../composables/useWebSocket'
 
 const { connect, on, off } = useWebSocket()
@@ -316,10 +327,11 @@ onUnmounted(() => {
 
     <!-- Column Headers - Desktop -->
     <div class="bg-gray-50/80 px-5 py-3 border-b text-xs font-bold text-gray-500 uppercase tracking-wider border-x border-gray-200 hidden lg:grid lg:grid-cols-12 gap-4">
-        <div class="col-span-4 pl-14">Domain</div>
-        <div class="col-span-2">Status</div>
+        <div class="col-span-3 pl-14">Domain</div>
+        <div class="col-span-2">Provider</div>
+        <div class="col-span-2">Expires</div>
         <div class="col-span-2">Auto Renew</div>
-        <div class="col-span-4 text-right pr-2">Actions</div>
+        <div class="col-span-3 text-right pr-2">Actions</div>
     </div>
 
     <!-- List -->
@@ -368,7 +380,7 @@ onUnmounted(() => {
             <!-- Desktop View -->
             <div v-for="cert in filteredCerts" :key="cert.id" class="hidden lg:grid lg:grid-cols-12 gap-4 p-4 border-b border-gray-100 hover:bg-gray-50/50 transition-all duration-200 last:border-b-0 group items-center">
                 <!-- Icon + Domain -->
-                <div class="col-span-4 flex items-center gap-3">
+                <div class="col-span-3 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:shadow-orange-500/30 transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -377,6 +389,14 @@ onUnmounted(() => {
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-gray-900 truncate">{{ cert.domain }}</p>
                         <p class="text-xs text-gray-400">Added {{ formatDate(cert.created_at) }}</p>
+                    </div>
+                </div>
+
+                <!-- Provider -->
+                <div class="col-span-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-gray-700">{{ formatProvider(cert.provider) }}</span>
+                        <span v-if="cert.provider === 'zerossl'" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100">EAB</span>
                     </div>
                 </div>
                 
@@ -431,7 +451,7 @@ onUnmounted(() => {
                 </div>
                 
                 <!-- Actions -->
-                <div class="col-span-4 flex justify-end gap-1">
+                <div class="col-span-3 flex justify-end gap-1">
                     <button @click="downloadFile(cert.id, 'cert', cert.domain)" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" title="Download Certificate">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -479,6 +499,11 @@ onUnmounted(() => {
                         
                         <!-- Info Pills -->
                         <div class="flex flex-wrap gap-2 mb-4">
+                            <!-- Provider -->
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200">
+                                <span class="text-xs text-gray-500">Provider:</span>
+                                <span class="text-xs font-semibold text-gray-700">{{ formatProvider(cert.provider) }}</span>
+                            </div>
                             <!-- Status -->
                             <div v-if="cert.status === 'generating'" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-50 border border-yellow-200 text-yellow-700">
                                 <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

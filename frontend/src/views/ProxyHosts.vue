@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Combobox from '../components/Combobox.vue'
 import CustomSelect from '../components/CustomSelect.vue'
 import { toast } from 'vue-sonner'
 import { useConfirm } from '../composables/useConfirm'
 import { useWebSocket } from '../composables/useWebSocket'
 import { authFetch } from '../composables/useAuth'
+
+const router = useRouter()
 
 const { confirm } = useConfirm()
 const { on, off, send, isConnected } = useWebSocket()
@@ -136,6 +139,24 @@ const certificates = ref<Certificate[]>([])
 const expandedHosts = ref<number[]>([])
 const sslErrorPinned = ref<number | null>(null)
 const searchQuery = ref('')
+const zerosslEabConfigured = ref(false)
+
+const isDnsChallengeDisabled = computed(() => {
+    return newHost.value.ssl_provider === 'zerossl' && !zerosslEabConfigured.value
+})
+
+const fetchZeroSSLEAB = async () => {
+    const res = await authFetch('/api/settings/zerossl-eab')
+    if (res.ok) {
+        const data = await res.json()
+        zerosslEabConfigured.value = data.configured || false
+    }
+}
+
+const goToSettings = () => {
+    showModal.value = false
+    router.push({ path: '/settings', query: { tab: 'dns', focus: 'zerossl' } })
+}
 
 const filteredHosts = computed(() => {
     if (!searchQuery.value.trim()) return hosts.value
@@ -709,10 +730,17 @@ watch(isConnected, (connected: boolean, wasConnected: boolean) => {
     }
 })
 
+watch(() => newHost.value.ssl_provider, (provider) => {
+    if (provider === 'zerossl' && !zerosslEabConfigured.value) {
+        newHost.value.use_dns_challenge = false
+    }
+})
+
 onMounted(() => {
     fetchAccessLists()
     fetchCertificates()
     fetchHosts()
+    fetchZeroSSLEAB()
     
     document.addEventListener('click', handleClickOutside)
     
@@ -1403,10 +1431,28 @@ onUnmounted(() => {
                     </div>
 
                     <div v-if="['auto', 'letsencrypt', 'zerossl'].includes(newHost.ssl_provider)">
-                        <label class="flex items-center cursor-pointer group">
-                            <input type="checkbox" v-model="newHost.use_dns_challenge" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
+                        <label class="flex items-center group" :class="isDnsChallengeDisabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'">
+                            <input 
+                                type="checkbox" 
+                                v-model="newHost.use_dns_challenge" 
+                                :disabled="isDnsChallengeDisabled"
+                                class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
                             <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Use DNS Challenge</span>
                         </label>
+                        
+                        <!-- Warning when ZeroSSL selected but EAB not configured -->
+                        <div v-if="isDnsChallengeDisabled" class="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <div class="flex items-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <div class="text-sm text-amber-700">
+                                    <p class="font-medium">ZeroSSL EAB Credentials Required</p>
+                                    <p class="text-xs mt-1">DNS Challenge for ZeroSSL requires EAB credentials. <button @click="goToSettings" class="underline font-medium hover:text-amber-900">Configure in Settings → DNS</button></p>
+                                </div>
+                            </div>
+                        </div>
 
                         <div v-if="newHost.use_dns_challenge" class="pl-7 space-y-3 border-l-2 border-green-100 mt-2">
                             <div>

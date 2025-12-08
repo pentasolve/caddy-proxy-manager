@@ -164,7 +164,7 @@
                 <div class="hidden lg:block divide-y divide-gray-100">
                     <TransitionGroup name="log-list">
                     <div v-for="(log, index) in filteredLogs" :key="log.id" 
-                        class="group p-4 hover:bg-gray-50/50 transition-all duration-200"
+                        class="group p-4 bg-white hover:bg-gray-50/50 transition-all duration-200"
                         :style="{ animationDelay: `${index * 50}ms` }">
                         <div class="flex items-center gap-4">
                             <!-- Icon with gradient background based on action -->
@@ -732,15 +732,18 @@ onUnmounted(() => {
 <style scoped>
 /* Log list transition animations - ultra fast & smooth */
 .log-list-enter-active {
-    animation: slideIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideIn 0.3s ease-out forwards;
 }
 
 .log-list-leave-active {
-    animation: slideOut 0.1s cubic-bezier(0.4, 0, 1, 1) forwards;
+    animation: slideOut 0.3s ease-in-out forwards;
+    position: absolute;
+    width: 100%;
+    z-index: 1; /* Ensure leaving items stay on top during cross-fade */
 }
 
 .log-list-move {
-    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.3s ease-in-out;
 }
 
 @keyframes slideIn {
@@ -757,11 +760,9 @@ onUnmounted(() => {
 @keyframes slideOut {
     from {
         opacity: 1;
-        transform: translateY(0) scale(1);
     }
     to {
         opacity: 0;
-        transform: translateY(-3px) scale(0.98);
     }
 }
 
@@ -776,6 +777,9 @@ onUnmounted(() => {
 .log-list-enter-active:nth-child(8) { animation-delay: 105ms; }
 .log-list-enter-active:nth-child(9) { animation-delay: 120ms; }
 .log-list-enter-active:nth-child(10) { animation-delay: 135ms; }
+
+/* Ensure leave animations are not staggered */
+.log-list-leave-active { animation-delay: 0ms !important; }
 
 /* Modal transitions - snappy */
 .modal-enter-active,

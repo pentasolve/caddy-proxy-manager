@@ -22,6 +22,7 @@ const userForm = ref({
 
 const roles = ref<any[]>([])
 const showRoleModal = ref(false)
+const showRoleDropdown = ref(false)
 const isEditingRole = ref(false)
 const roleForm = ref({
     id: 0,
@@ -29,6 +30,21 @@ const roleForm = ref({
     description: '',
     permission_ids: [] as number[]
 })
+
+const selectedRoleName = computed(() => {
+    const role = roles.value.find(r => r.id === userForm.value.role_id)
+    return role?.name || 'Select a role'
+})
+
+const selectedRoleDescription = computed(() => {
+    const role = roles.value.find(r => r.id === userForm.value.role_id)
+    return role?.description || 'Choose a role for this user'
+})
+
+const selectRole = (role: any) => {
+    userForm.value.role_id = role.id
+    showRoleDropdown.value = false
+}
 
 const filteredUsers = computed(() => {
     if (!searchQuery.value.trim()) return users.value
@@ -680,15 +696,72 @@ onUnmounted(() => {
                             placeholder="Enter username"
                         />
                     </div>
-                    <div>
+                    <div class="relative">
                         <label for="userRole" class="block text-sm font-semibold text-gray-700 mb-2">Role <span class="text-red-500">*</span></label>
-                        <select 
-                            id="userRole"
-                            v-model="userForm.role_id" 
-                            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-gray-50/50"
+                        
+                        <!-- Custom Dropdown Button -->
+                        <button 
+                            type="button"
+                            @click="showRoleDropdown = !showRoleDropdown"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-gray-50/50 flex items-center justify-between gap-3 text-left hover:border-blue-300"
                         >
-                            <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
-                        </select>
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-semibold text-gray-800 truncate">{{ selectedRoleName }}</p>
+                                    <p class="text-xs text-gray-400 truncate">{{ selectedRoleDescription }}</p>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 flex-shrink-0 transition-transform duration-200" :class="{ 'rotate-180': showRoleDropdown }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown Options -->
+                        <Transition
+                            enter-active-class="transition duration-150 ease-out"
+                            enter-from-class="transform scale-95 opacity-0"
+                            enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-100 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0"
+                        >
+                            <div 
+                                v-if="showRoleDropdown" 
+                                class="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden"
+                            >
+                                <div class="max-h-64 overflow-y-auto py-1">
+                                    <button
+                                        v-for="role in roles"
+                                        :key="role.id"
+                                        type="button"
+                                        @click="selectRole(role)"
+                                        class="w-full px-4 py-3 flex items-center gap-3 hover:bg-blue-50 transition-colors text-left"
+                                        :class="{ 'bg-blue-50 border-l-2 border-blue-500': userForm.role_id === role.id }"
+                                    >
+                                        <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm" :class="userForm.role_id === role.id ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' : 'bg-gray-100 text-gray-500'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-sm font-semibold truncate" :class="userForm.role_id === role.id ? 'text-blue-600' : 'text-gray-800'">{{ role.name }}</p>
+                                            <p class="text-xs text-gray-400 truncate">{{ role.description || 'No description' }}</p>
+                                        </div>
+                                        <svg v-if="userForm.role_id === role.id" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </Transition>
+                        
+                        <!-- Click outside to close -->
+                        <div v-if="showRoleDropdown" @click="showRoleDropdown = false" class="fixed inset-0 z-40"></div>
                     </div>
                     <div>
                         <label for="userPassword" class="block text-sm font-semibold text-gray-700 mb-2">

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { toast } from 'vue-sonner'
+import { useRoute } from 'vue-router'
 import { authFetch } from '../composables/useAuth'
+
+const route = useRoute()
 
 const activeTab = ref('general')
 const defaultPageHtml = ref('')
@@ -63,9 +66,25 @@ const saveZeroSSLEAB = async () => {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     fetchDefaultPage()
     fetchZeroSSLEAB()
+
+    if (route.query.tab) {
+        activeTab.value = route.query.tab as string
+    }
+
+    if (route.query.focus) {
+        await nextTick()
+        setTimeout(() => {
+            const el = document.getElementById(route.query.focus as string)
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                el.classList.add('ring-2', 'ring-amber-500', 'ring-offset-2')
+                setTimeout(() => el.classList.remove('ring-2', 'ring-amber-500', 'ring-offset-2'), 2000)
+            }
+        }, 300)
+    }
 })
 </script>
 
@@ -179,7 +198,7 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="p-6">
-                            <div class="mb-5 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                            <div id="zerossl" class="mb-5 p-4 bg-blue-50 border border-blue-200 rounded-xl transition-all duration-300">
                                 <div class="flex items-start gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
