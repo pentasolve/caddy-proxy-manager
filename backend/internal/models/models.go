@@ -113,6 +113,7 @@ type Certificate struct {
 	Domain    string         `json:"domain"`
 	CertFile  string         `json:"cert_file"`
 	KeyFile   string         `json:"key_file"`
+	Provider  string         `json:"provider"`
 	Status    string         `json:"status" gorm:"default:'ready'"`
 	Error     string         `json:"error"`
 	AutoRenew bool           `json:"auto_renew" gorm:"default:true"`
@@ -163,4 +164,3 @@ type RevokedToken struct {
 	ExpiresAt time.Time `json:"expires_at"`
 	RevokedAt time.Time `json:"revoked_at"`
 }
-

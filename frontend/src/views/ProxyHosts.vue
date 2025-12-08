@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Combobox from '../components/Combobox.vue'
 import CustomSelect from '../components/CustomSelect.vue'
 import { toast } from 'vue-sonner'
 import { useConfirm } from '../composables/useConfirm'
 import { useWebSocket } from '../composables/useWebSocket'
 import { authFetch } from '../composables/useAuth'
+
+const router = useRouter()
 
 const { confirm } = useConfirm()
 const { on, off, send, isConnected } = useWebSocket()
@@ -136,6 +139,24 @@ const certificates = ref<Certificate[]>([])
 const expandedHosts = ref<number[]>([])
 const sslErrorPinned = ref<number | null>(null)
 const searchQuery = ref('')
+const zerosslEabConfigured = ref(false)
+
+const isDnsChallengeDisabled = computed(() => {
+    return newHost.value.ssl_provider === 'zerossl' && !zerosslEabConfigured.value
+})
+
+const fetchZeroSSLEAB = async () => {
+    const res = await authFetch('/api/settings/zerossl-eab')
+    if (res.ok) {
+        const data = await res.json()
+        zerosslEabConfigured.value = data.configured || false
+    }
+}
+
+const goToSettings = () => {
+    showModal.value = false
+    router.push({ path: '/settings', query: { tab: 'dns', focus: 'zerossl' } })
+}
 
 const filteredHosts = computed(() => {
     if (!searchQuery.value.trim()) return hosts.value
@@ -537,6 +558,26 @@ const deleteHost = async (id: number) => {
     }
 }
 
+const retrySSL = async (host: Host) => {
+    const confirmed = await confirm(
+        'Retry SSL Certificate', 
+        `Are you sure you want to retry SSL certificate generation for ${host.domain}?`,
+        { type: 'info', confirmText: 'Retry' }
+    )
+    if(!confirmed) return;
+
+    const res = await authFetch(`/api/hosts/${host.id}/retry-ssl`, {
+        method: 'POST'
+    })
+    
+    if (res.ok) {
+        toast.success('SSL certificate generation restarted')
+    } else {
+        const data = await res.json()
+        toast.error(data.error || 'Failed to retry SSL generation')
+    }
+}
+
 const getAccessListName = (id: number) => {
     const list = accessLists.value.find((l: AccessList) => l.id === id)
     return list ? list.name : 'Protected'
@@ -689,10 +730,17 @@ watch(isConnected, (connected: boolean, wasConnected: boolean) => {
     }
 })
 
+watch(() => newHost.value.ssl_provider, (provider) => {
+    if (provider === 'zerossl' && !zerosslEabConfigured.value) {
+        newHost.value.use_dns_challenge = false
+    }
+})
+
 onMounted(() => {
     fetchAccessLists()
     fetchCertificates()
     fetchHosts()
+    fetchZeroSSLEAB()
     
     document.addEventListener('click', handleClickOutside)
     
@@ -911,25 +959,33 @@ onUnmounted(() => {
                         </svg>
                         Generating
                     </div>
-                    <div v-else-if="host.ssl_status === 'failed'" 
-                         class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
-                         @click.stop="sslErrorPinned = sslErrorPinned === host.id ? null : host.id">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Failed
-                        <div :class="['ssl-error-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 max-w-xs bg-gray-800 text-white text-xs rounded p-2 transition-opacity z-50 text-center shadow-lg break-words select-text', sslErrorPinned === host.id ? 'opacity-100' : 'opacity-0 group-hover/ssl:opacity-100 pointer-events-none']">
-                            <div class="flex items-center justify-between gap-2 mb-1" v-if="sslErrorPinned === host.id">
-                                <span class="text-gray-400 text-[10px]">Click to copy</span>
-                                <button @click.stop="sslErrorPinned = null" class="text-gray-400 hover:text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                </button>
+                    <div v-else-if="host.ssl_status === 'failed'" class="flex items-center gap-1.5">
+                        <div class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
+                             @click.stop="sslErrorPinned = sslErrorPinned === host.id ? null : host.id">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Failed
+                            <div :class="['ssl-error-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 max-w-xs bg-gray-800 text-white text-xs rounded p-2 transition-opacity z-50 text-center shadow-lg break-words select-text', sslErrorPinned === host.id ? 'opacity-100' : 'opacity-0 group-hover/ssl:opacity-100 pointer-events-none']">
+                                <div class="flex items-center justify-between gap-2 mb-1" v-if="sslErrorPinned === host.id">
+                                    <span class="text-gray-400 text-[10px]">Click to copy</span>
+                                    <button @click.stop="sslErrorPinned = null" class="text-gray-400 hover:text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                                <div @click.stop="copyToClipboard(host.ssl_error || 'Unknown error')" class="cursor-pointer hover:bg-gray-700 rounded p-1 -m-1">
+                                    {{ host.ssl_error || 'Unknown error' }}
+                                </div>
+                                <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
                             </div>
-                            <div @click.stop="copyToClipboard(host.ssl_error || 'Unknown error')" class="cursor-pointer hover:bg-gray-700 rounded p-1 -m-1">
-                                {{ host.ssl_error || 'Unknown error' }}
-                            </div>
-                            <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
                         </div>
+                        <button @click.stop="retrySSL(host)" 
+                                class="inline-flex items-center justify-center w-6 h-6 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-all shadow-sm hover:shadow-md" 
+                                title="Retry SSL">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </button>
                     </div>
                     <!-- Fallback SSL: ACME failed but using Self-Signed -->
                     <div v-else-if="host.ssl && host.ssl_provider === 'auto' && host.ssl_actual_provider === 'selfsigned'" 
@@ -1139,12 +1195,20 @@ onUnmounted(() => {
                                 </svg>
                                 SSL Generating
                             </div>
-                            <div v-else-if="host.ssl_status === 'failed'" 
-                                 class="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                SSL Failed
+                            <div v-else-if="host.ssl_status === 'failed'" class="flex items-center gap-2">
+                                <div class="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    SSL Failed
+                                </div>
+                                <button @click.stop="retrySSL(host)" 
+                                        class="inline-flex items-center justify-center w-7 h-7 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-all shadow-sm hover:shadow-md" 
+                                        title="Retry SSL">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                </button>
                             </div>
                             <!-- Fallback SSL: ACME failed but using Self-Signed -->
                             <div v-else-if="host.ssl && host.ssl_provider === 'auto' && host.ssl_actual_provider === 'selfsigned'" 
@@ -1367,10 +1431,28 @@ onUnmounted(() => {
                     </div>
 
                     <div v-if="['auto', 'letsencrypt', 'zerossl'].includes(newHost.ssl_provider)">
-                        <label class="flex items-center cursor-pointer group">
-                            <input type="checkbox" v-model="newHost.use_dns_challenge" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
+                        <label class="flex items-center group" :class="isDnsChallengeDisabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'">
+                            <input 
+                                type="checkbox" 
+                                v-model="newHost.use_dns_challenge" 
+                                :disabled="isDnsChallengeDisabled"
+                                class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
                             <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Use DNS Challenge</span>
                         </label>
+                        
+                        <!-- Warning when ZeroSSL selected but EAB not configured -->
+                        <div v-if="isDnsChallengeDisabled" class="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <div class="flex items-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <div class="text-sm text-amber-700">
+                                    <p class="font-medium">ZeroSSL EAB Credentials Required</p>
+                                    <p class="text-xs mt-1">DNS Challenge for ZeroSSL requires EAB credentials. <button @click="goToSettings" class="underline font-medium hover:text-amber-900">Configure in Settings → DNS</button></p>
+                                </div>
+                            </div>
+                        </div>
 
                         <div v-if="newHost.use_dns_challenge" class="pl-7 space-y-3 border-l-2 border-green-100 mt-2">
                             <div>

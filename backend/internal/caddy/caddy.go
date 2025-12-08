@@ -500,8 +500,32 @@ func GenerateConfig() (*CaddyConfig, error) {
 				{"module": "acme", "email": "admin@" + host.Domain},
 			}
 		case "zerossl":
-			issuers = []map[string]interface{}{
-				{"module": "zerossl"},
+			if host.UseDNSChallenge && host.DNSProvider != "" {
+				var kidSetting, hmacSetting models.Setting
+				kidErr := db.DB.Where("key = ?", "zerossl_eab_kid").First(&kidSetting).Error
+				hmacErr := db.DB.Where("key = ?", "zerossl_eab_hmac_key").First(&hmacSetting).Error
+
+				if kidErr == nil && hmacErr == nil && kidSetting.Value != "" && hmacSetting.Value != "" {
+					issuers = []map[string]interface{}{
+						{
+							"module": "acme",
+							"ca":     "https://acme.zerossl.com/v2/DV90",
+							"email":  "admin@" + host.Domain,
+							"external_account": map[string]interface{}{
+								"key_id":  kidSetting.Value,
+								"mac_key": hmacSetting.Value,
+							},
+						},
+					}
+				} else {
+					issuers = []map[string]interface{}{
+						{"module": "zerossl"},
+					}
+				}
+			} else {
+				issuers = []map[string]interface{}{
+					{"module": "zerossl"},
+				}
 			}
 		case "selfsigned":
 			issuers = []map[string]interface{}{
@@ -539,7 +563,7 @@ func GenerateConfig() (*CaddyConfig, error) {
 
 				if providerConfig != nil {
 					for i, issuer := range issuers {
-						if issuer["module"] == "acme" || issuer["module"] == "zerossl" {
+						if issuer["module"] == "acme" {
 							issuers[i]["challenges"] = map[string]interface{}{
 								"dns": map[string]interface{}{
 									"provider": providerConfig,
@@ -735,7 +759,7 @@ func CheckSSLStatus(domain string, provider string) bool {
 		case "letsencrypt":
 			path = fmt.Sprintf("%s/acme-v02.api.letsencrypt.org-directory/%s/%s.crt", baseDir, domain, domain)
 		case "zerossl":
-			path = fmt.Sprintf("%s/acme.zerossl.com-v2-DV90/%s/%s.crt", baseDir, domain, domain)
+			path = fmt.Sprintf("%s/acme.zerossl.com-v2-dv90/%s/%s.crt", baseDir, domain, domain)
 		case "selfsigned":
 			path = fmt.Sprintf("%s/%s-selfsigned.crt", customDir, domain)
 		}
@@ -762,7 +786,7 @@ func CheckSSLStatusWithProvider(domain string, provider string) (bool, string) {
 		case "letsencrypt":
 			path = fmt.Sprintf("%s/acme-v02.api.letsencrypt.org-directory/%s/%s.crt", baseDir, domain, domain)
 		case "zerossl":
-			path = fmt.Sprintf("%s/acme.zerossl.com-v2-DV90/%s/%s.crt", baseDir, domain, domain)
+			path = fmt.Sprintf("%s/acme.zerossl.com-v2-dv90/%s/%s.crt", baseDir, domain, domain)
 		case "selfsigned":
 			path = fmt.Sprintf("%s/%s-selfsigned.crt", customDir, domain)
 		}
@@ -792,7 +816,7 @@ func CheckSSLStatusWithProvider(domain string, provider string) (bool, string) {
 	}
 	return false, ""
 }
-func GetSSLError(domain string) (string, bool) {
+func GetSSLError(domain string, sinceTime time.Time) (string, bool) {
 	logFile := "/data/caddy.log"
 
 	file, err := os.Open(logFile)
@@ -812,6 +836,13 @@ func GetSSLError(domain string) (string, bool) {
 		if strings.Contains(line, `"level":"error"`) || strings.Contains(line, `"level":"warn"`) {
 			var logEntry map[string]interface{}
 			if err := json.Unmarshal([]byte(line), &logEntry); err == nil {
+				if ts, ok := logEntry["ts"].(float64); ok {
+					logTime := time.Unix(int64(ts), int64((ts-float64(int64(ts)))*1e9))
+					if logTime.Before(sinceTime) {
+						continue
+					}
+				}
+
 				identifier, _ := logEntry["identifier"].(string)
 				msg, _ := logEntry["msg"].(string)
 				errStr, _ := logEntry["error"].(string)
@@ -824,13 +855,24 @@ func GetSSLError(domain string) (string, bool) {
 				}
 			}
 		}
-		if strings.Contains(line, domain) && (strings.Contains(line, "Cannot issue") || strings.Contains(line, "error") || strings.Contains(line, "failed") || strings.Contains(line, "rejectedIdentifier")) {
-			if !found {
-				lastError = line
-				if len(lastError) > 200 {
-					lastError = lastError[:200] + "..."
+		if strings.Contains(line, domain) && !strings.Contains(line, `"level":"info"`) {
+			if strings.Contains(line, "Cannot issue") || strings.Contains(line, "rejectedIdentifier") || strings.Contains(line, "challenge failed") || strings.Contains(line, "acme_error") || strings.Contains(line, "context canceled") {
+				var logEntry map[string]interface{}
+				if err := json.Unmarshal([]byte(line), &logEntry); err == nil {
+					if ts, ok := logEntry["ts"].(float64); ok {
+						logTime := time.Unix(int64(ts), int64((ts-float64(int64(ts)))*1e9))
+						if logTime.Before(sinceTime) {
+							continue
+						}
+					}
 				}
-				found = true
+				if !found {
+					lastError = line
+					if len(lastError) > 200 {
+						lastError = lastError[:200] + "..."
+					}
+					found = true
+				}
 			}
 		}
 	}
