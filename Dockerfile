@@ -5,7 +5,7 @@ RUN bun install --frozen-lockfile
 COPY frontend/ .
 RUN bun run build
 
-FROM golang:1.24-alpine AS backend-builder
+FROM golang:1-alpine AS backend-builder
 WORKDIR /app
 RUN apk add --no-cache gcc musl-dev
 COPY backend/go.mod backend/go.sum* ./
@@ -18,7 +18,7 @@ RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mholt/caddy-l4
 
-FROM caddy:2.10.2-alpine
+FROM caddy:2-alpine
 WORKDIR /app
 COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=backend-builder /app/caddy-proxy-manager /app/caddy-proxy-manager
