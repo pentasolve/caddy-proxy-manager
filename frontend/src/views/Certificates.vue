@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import CustomSelect from '../components/CustomSelect.vue'
 import Combobox from '../components/Combobox.vue'
@@ -228,7 +228,7 @@ const getExpiryColor = (status: string) => {
         case 'expired': return 'text-red-600 bg-red-50 border-red-200'
         case 'warning': return 'text-yellow-600 bg-yellow-50 border-yellow-200'
         case 'valid': return 'text-green-600 bg-green-50 border-green-200'
-        default: return 'text-gray-600 bg-gray-50 border-gray-200'
+        default: return 'text-gray-600 bg-gray-50 border-gray-200 dark:border-gray-700'
     }
 }
 
@@ -286,14 +286,14 @@ onUnmounted(() => {
   <div>
 
     <!-- Header -->
-    <div class="bg-white rounded-t-xl p-5 border-b border-gray-200 shadow-sm overflow-hidden relative">
+    <div class="bg-white rounded-t-xl p-5 border-b border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden relative">
         <!-- Gradient accent bar -->
         <div class="absolute top-0 left-0 right-0 h-1 bg-orange-500"></div>
         
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div>
-                <h2 class="text-2xl font-bold text-gray-800 tracking-tight">SSL Certificates</h2>
-                <p class="text-sm text-gray-500 mt-1">Manage SSL/TLS certificates for your domains</p>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">SSL Certificates</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage SSL/TLS certificates for your domains</p>
             </div>
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
                 <div class="relative flex-1 lg:flex-initial">
@@ -301,7 +301,7 @@ onUnmounted(() => {
                         v-model="searchQuery" 
                         type="text" 
                         placeholder="Search certificates..." 
-                        class="w-full lg:w-64 pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all bg-gray-50/50"
+                        class="w-full lg:w-64 pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all bg-gray-50/50"
                     />
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -314,7 +314,7 @@ onUnmounted(() => {
                         </svg>
                         <span>Generate</span>
                     </button>
-                    <button @click="showModal = true" class="flex-1 sm:flex-initial bg-white border-2 border-orange-200 hover:border-orange-300 text-orange-600 hover:bg-orange-50 px-5 py-2.5 rounded-xl transition-all duration-300 font-semibold text-sm flex items-center justify-center gap-2 whitespace-nowrap">
+                    <button @click="showModal = true" class="flex-1 sm:flex-initial bg-white dark:bg-gray-800 border-2 border-orange-200 hover:border-orange-300 text-orange-600 hover:bg-orange-50 px-5 py-2.5 rounded-xl transition-all duration-300 font-semibold text-sm flex items-center justify-center gap-2 whitespace-nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
@@ -326,7 +326,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Column Headers - Desktop -->
-    <div class="bg-gray-50/80 px-5 py-3 border-b text-xs font-bold text-gray-500 uppercase tracking-wider border-x border-gray-200 hidden lg:grid lg:grid-cols-12 gap-4">
+    <div class="bg-gray-50/80 dark:bg-gray-700/80 px-5 py-3 border-b text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-x border-gray-200 dark:border-gray-700 hidden lg:grid lg:grid-cols-12 gap-4">
         <div class="col-span-3 pl-14">Domain</div>
         <div class="col-span-2">Provider</div>
         <div class="col-span-2">Expires</div>
@@ -335,7 +335,7 @@ onUnmounted(() => {
     </div>
 
     <!-- List -->
-    <div class="bg-white rounded-b-xl shadow-lg border-x border-b border-gray-200">
+    <div class="bg-white rounded-b-xl shadow-lg border-x border-b border-gray-200 dark:border-gray-700 dark:border-gray-700">
         <!-- Empty State -->
         <div v-if="certs.length === 0" class="p-12 text-center">
             <div class="mb-4">
@@ -345,7 +345,7 @@ onUnmounted(() => {
                     </svg>
                 </div>
             </div>
-            <p class="text-lg font-bold text-gray-700 mb-2">No certificates found</p>
+            <p class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">No certificates found</p>
             <p class="text-sm text-gray-400 mb-6">Generate or upload SSL certificates for your domains</p>
             <div class="flex items-center justify-center gap-3">
                 <button @click="showGenerateModal = true" class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/25 transition-all text-sm font-semibold">
@@ -367,13 +367,13 @@ onUnmounted(() => {
         <div v-else-if="filteredCerts.length === 0" class="p-12 text-center">
             <div class="mb-4">
                 <div class="mx-auto w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
-            <p class="text-lg font-bold text-gray-700 mb-2">No results found</p>
-            <p class="text-sm text-gray-400">No certificates match "{{ searchQuery }}"</p>
+            <p class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-2">No results found</p>
+            <p class="text-sm text-gray-400 dark:text-gray-500">No certificates match "{{ searchQuery }}"</p>
         </div>
 
         <template v-else>
@@ -387,15 +387,15 @@ onUnmounted(() => {
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-sm font-bold text-gray-900 truncate">{{ cert.domain }}</p>
-                        <p class="text-xs text-gray-400">Added {{ formatDate(cert.created_at) }}</p>
+                        <p class="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">{{ cert.domain }}</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500">Added {{ formatDate(cert.created_at) }}</p>
                     </div>
                 </div>
 
                 <!-- Provider -->
                 <div class="col-span-2">
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-medium text-gray-700">{{ formatProvider(cert.provider) }}</span>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-200 dark:text-gray-300">{{ formatProvider(cert.provider) }}</span>
                         <span v-if="cert.provider === 'zerossl'" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100">EAB</span>
                     </div>
                 </div>
@@ -424,7 +424,7 @@ onUnmounted(() => {
                         getExpiryStatus(cert.expires_at) === 'valid' ? 'bg-green-50 border-green-200 text-green-700' :
                         getExpiryStatus(cert.expires_at) === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-700' :
                         getExpiryStatus(cert.expires_at) === 'expired' ? 'bg-red-50 border-red-200 text-red-600' :
-                        'bg-gray-50 border-gray-200 text-gray-600'
+                        'bg-gray-50 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 dark:text-gray-400'
                     ]">
                         <svg v-if="getExpiryStatus(cert.expires_at) === 'valid'" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -446,7 +446,7 @@ onUnmounted(() => {
                             class="sr-only peer"
                         >
                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
-                        <span class="ml-2 text-xs font-semibold text-gray-600">{{ cert.auto_renew !== false ? 'On' : 'Off' }}</span>
+                        <span class="ml-2 text-xs font-semibold text-gray-600 dark:text-gray-300 dark:text-gray-400 dark:text-gray-500">{{ cert.auto_renew !== false ? 'On' : 'Off' }}</span>
                     </label>
                 </div>
                 
@@ -472,7 +472,7 @@ onUnmounted(() => {
 
             <!-- Mobile View -->
             <div v-for="cert in filteredCerts" :key="'mobile-' + cert.id" class="lg:hidden p-4 border-b border-gray-100 last:border-b-0">
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                     <!-- Status indicator strip -->
                     <div :class="[
                         'h-1',
@@ -492,17 +492,17 @@ onUnmounted(() => {
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-base font-bold text-gray-900 truncate">{{ cert.domain }}</p>
-                                <p class="text-xs text-gray-400">Added {{ formatDate(cert.created_at) }}</p>
+                                <p class="text-base font-bold text-gray-900 dark:text-gray-100 truncate">{{ cert.domain }}</p>
+                                <p class="text-xs text-gray-400 dark:text-gray-500">Added {{ formatDate(cert.created_at) }}</p>
                             </div>
                         </div>
                         
                         <!-- Info Pills -->
                         <div class="flex flex-wrap gap-2 mb-4">
                             <!-- Provider -->
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200">
-                                <span class="text-xs text-gray-500">Provider:</span>
-                                <span class="text-xs font-semibold text-gray-700">{{ formatProvider(cert.provider) }}</span>
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-700 dark:border-gray-700">
+                                <span class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Provider:</span>
+                                <span class="text-xs font-semibold text-gray-700 dark:text-gray-200 dark:text-gray-300">{{ formatProvider(cert.provider) }}</span>
                             </div>
                             <!-- Status -->
                             <div v-if="cert.status === 'generating'" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-50 border border-yellow-200 text-yellow-700">
@@ -528,16 +528,16 @@ onUnmounted(() => {
                             </div>
                             
                             <!-- Auto Renew -->
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200">
-                                <span class="text-xs text-gray-500">Auto Renew:</span>
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-700 dark:border-gray-700">
+                                <span class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Auto Renew:</span>
                                 <button @click="toggleAutoRenew(cert)" :class="cert.auto_renew !== false ? 'bg-orange-500' : 'bg-gray-300'" class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors">
-                                    <span :class="cert.auto_renew !== false ? 'translate-x-4' : 'translate-x-1'" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform" />
+                                    <span :class="cert.auto_renew !== false ? 'translate-x-4' : 'translate-x-1'" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white dark:bg-gray-800 transition-transform" />
                                 </button>
                             </div>
                         </div>
                         
                         <!-- Actions -->
-                        <div class="flex gap-2 pt-3 border-t border-gray-100">
+                        <div class="flex gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
                             <button @click="downloadFile(cert.id, 'cert', cert.domain)" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-semibold transition-all shadow-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -550,7 +550,7 @@ onUnmounted(() => {
                                 </svg>
                                 Key
                             </button>
-                            <button @click="deleteCert(cert.id)" class="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 text-red-500 hover:bg-red-50 hover:border-red-200 rounded-lg text-sm font-semibold transition-all">
+                            <button @click="deleteCert(cert.id)" class="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 dark:border-gray-700 text-red-500 hover:bg-red-50 hover:border-red-200 rounded-lg text-sm font-semibold transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
@@ -572,7 +572,7 @@ onUnmounted(() => {
         
         <div class="p-6 space-y-5">
             <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Domain Name</span>
+                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Domain Name</span>
                 <Combobox 
                     v-model="domain" 
                     :options="hostOptions" 
@@ -582,18 +582,18 @@ onUnmounted(() => {
             </div>
 
             <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Certificate (.crt)</span>
-                <input type="file" @change="handleCertUpload" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-700 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200">
+                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Certificate (.crt)</span>
+                <input type="file" @change="handleCertUpload" class="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-50/50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200">
             </div>
 
             <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Private Key (.key)</span>
-                <input type="file" @change="handleKeyUpload" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-700 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200">
+                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Private Key (.key)</span>
+                <input type="file" @change="handleKeyUpload" class="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-50/50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200">
             </div>
         </div>
 
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
-          <button @click="showModal = false" class="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-semibold transition-colors rounded-xl hover:bg-gray-100">Cancel</button>
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 flex justify-end gap-3">
+          <button @click="showModal = false" class="px-5 py-2.5 text-gray-600 dark:text-gray-300 hover:text-gray-800 font-semibold transition-colors rounded-xl hover:bg-gray-100 dark:bg-gray-700">Cancel</button>
           <button @click="uploadCert" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-orange-500/25 transition-all font-semibold">Upload</button>
         </div>
       </div>
@@ -610,7 +610,7 @@ onUnmounted(() => {
         
         <div class="p-6 space-y-5 overflow-y-auto flex-1">
             <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Domain Name</span>
+                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Domain Name</span>
                 <Combobox 
                     v-model="generateDomain" 
                     :options="hostOptions" 
@@ -620,7 +620,7 @@ onUnmounted(() => {
             </div>
 
             <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Provider</span>
+                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Provider</span>
                 <CustomSelect 
                     v-model="generateProvider" 
                     :options="providerOptions" 
@@ -629,18 +629,18 @@ onUnmounted(() => {
             </div>
 
             <div v-if="generateProvider !== 'selfsigned'">
-                <label for="genEmail" class="block text-sm font-semibold text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>
-                <input id="genEmail" v-model="generateEmail" type="email" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-700 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all" placeholder="admin@example.com">
+                <label for="genEmail" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Email Address <span class="text-red-500">*</span></label>
+                <input id="genEmail" v-model="generateEmail" type="email" class="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-50/50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all" placeholder="admin@example.com">
             </div>
 
-            <div v-if="generateProvider !== 'selfsigned'" class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+            <div v-if="generateProvider !== 'selfsigned'" class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
                 <input type="checkbox" v-model="generateUseDNS" id="genUseDNS" class="w-4 h-4 rounded text-orange-600 focus:ring-orange-500">
-                <label for="genUseDNS" class="text-sm font-semibold text-gray-700">Use DNS Challenge</label>
+                <label for="genUseDNS" class="text-sm font-semibold text-gray-700 dark:text-gray-200 dark:text-gray-300">Use DNS Challenge</label>
             </div>
 
             <div v-if="generateProvider !== 'selfsigned' && generateUseDNS" class="pl-4 border-l-4 border-orange-200 space-y-4 bg-orange-50/50 rounded-r-xl p-4">
                 <div>
-                    <span class="block text-xs font-semibold text-gray-600 mb-2">DNS Provider</span>
+                    <span class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">DNS Provider</span>
                     <CustomSelect 
                         v-model="generateDNSProvider" 
                         :options="dnsProviderOptions" 
@@ -648,14 +648,14 @@ onUnmounted(() => {
                     />
                 </div>
                 <div>
-                    <label for="dnsToken" class="block text-xs font-semibold text-gray-600 mb-2">API Token <span class="text-red-500">*</span></label>
-                    <input id="dnsToken" v-model="generateDNSToken" type="password" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all">
+                    <label for="dnsToken" class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">API Token <span class="text-red-500">*</span></label>
+                    <input id="dnsToken" v-model="generateDNSToken" type="password" class="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all">
                 </div>
             </div>
         </div>
 
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3 flex-shrink-0">
-          <button @click="showGenerateModal = false" class="px-5 py-2.5 text-gray-600 hover:text-gray-800 font-semibold transition-colors rounded-xl hover:bg-gray-100">Cancel</button>
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 flex justify-end gap-3 flex-shrink-0">
+          <button @click="showGenerateModal = false" class="px-5 py-2.5 text-gray-600 dark:text-gray-300 hover:text-gray-800 font-semibold transition-colors rounded-xl hover:bg-gray-100 dark:bg-gray-700">Cancel</button>
           <button @click="generateCert" :disabled="isGenerating" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-orange-500/25 transition-all font-semibold disabled:opacity-50 flex items-center gap-2">
               <svg v-if="isGenerating" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

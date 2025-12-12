@@ -2,6 +2,141 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark mode variables */
+:root {
+    --bg-primary: #f3f4f6;
+    --bg-secondary: #ffffff;
+    --bg-header: #020617;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+:root.dark {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-header: #0f172a;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border-color: #374151;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode styles */
+.dark {
+    color-scheme: dark;
+}
+
+.dark body {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark .bg-gray-100 {
+    @apply bg-gray-900;
+}
+
+.dark .bg-white {
+    @apply bg-gray-800 text-gray-100;
+}
+
+.dark .bg-gray-50 {
+    @apply bg-gray-800;
+}
+
+.dark .text-gray-900 {
+    @apply text-gray-100;
+}
+
+.dark .text-gray-800 {
+    @apply text-gray-200;
+}
+
+.dark .text-gray-700 {
+    @apply text-gray-300;
+}
+
+.dark .text-gray-600 {
+    @apply text-gray-400;
+}
+
+.dark .border-gray-200 {
+    @apply border-gray-700;
+}
+
+.dark .border-gray-300 {
+    @apply border-gray-600;
+}
+
+.dark .hover\:bg-gray-50:hover {
+    @apply bg-gray-700;
+}
+
+.dark .hover\:bg-gray-100:hover {
+    @apply bg-gray-700;
+}
+
+.dark .shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.26);
+}
+
+.dark .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+}
+
+.dark .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.24);
+}
+
+/* Dark mode for cards and panels */
+.dark .bg-slate-50 {
+    @apply bg-slate-800;
+}
+
+.dark .bg-slate-100 {
+    @apply bg-slate-700;
+}
+
+/* Dark mode for forms */
+.dark input,
+.dark textarea,
+.dark select {
+    @apply bg-gray-700 border-gray-600 text-gray-100;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+    @apply bg-gray-700 border-blue-500 ring-blue-500;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    @apply text-gray-400;
+}
+
+/* Dark mode for modal windows */
+.dark .bg-white\/95 {
+    background-color: rgba(31, 41, 55, 0.95) !important;
+}
+
+/* Dark mode for tables */
+.dark table {
+    @apply bg-gray-800;
+}
+
+.dark thead {
+    @apply bg-gray-700;
+}
+
+.dark tbody tr {
+    @apply border-gray-700;
+}
+
+.dark tbody tr:hover {
+    @apply bg-gray-700;
+}
+
 /* Sonner toast close button positioning - pojok kanan, center vertikal */
 [data-sonner-toast] [data-close-button] {
     position: absolute !important;
@@ -13,4 +148,25 @@
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+}
+
+/* Dark mode for toast notifications */
+.dark [data-sonner-toast] {
+    @apply bg-gray-800 text-gray-100 border-gray-700;
+}
+
+.dark [data-sonner-toast][data-type="success"] {
+    @apply bg-green-900 text-green-100 border-green-700;
+}
+
+.dark [data-sonner-toast][data-type="error"] {
+    @apply bg-red-900 text-red-100 border-red-700;
+}
+
+.dark [data-sonner-toast][data-type="warning"] {
+    @apply bg-yellow-900 text-yellow-100 border-yellow-700;
+}
+
+.dark [data-sonner-toast][data-type="info"] {
+    @apply bg-blue-900 text-blue-100 border-blue-700;
 }

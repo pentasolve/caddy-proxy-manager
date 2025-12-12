@@ -64,7 +64,7 @@ onMounted(fetchProfile)
 <template>
     <div class="max-w-2xl mx-auto">
         <!-- Header -->
-        <div class="bg-white rounded-t-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-t-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
             <div class="h-1 bg-blue-900"></div>
             <div class="p-5">
                 <div class="flex items-center gap-4">
@@ -74,24 +74,24 @@ onMounted(fetchProfile)
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold text-gray-800 tracking-tight">My Profile</h2>
-                        <p class="text-sm text-gray-500 mt-0.5">Manage your account settings</p>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">My Profile</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Manage your account settings</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-b-xl shadow-lg border-x border-b border-gray-200">
+        <div class="bg-white dark:bg-gray-800 rounded-b-xl shadow-lg border-x border-b border-gray-200 dark:border-gray-700">
             <form @submit.prevent="saveProfile" class="p-6 space-y-6">
                 <!-- Username Section -->
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
+                <div class="bg-white dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 p-5">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </div>
-                        <span class="font-semibold text-gray-800">Account Information</span>
+                        <span class="font-semibold text-gray-800 dark:text-gray-200">Account Information</span>
                     </div>
                     
                     <div>
@@ -99,36 +99,36 @@ onMounted(fetchProfile)
                         <input 
                             v-model="username" 
                             type="text" 
-                            class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white outline-none transition-all"
+                            class="w-full border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all"
                         />
                     </div>
                 </div>
 
                 <!-- Password Section -->
-                <div class="border-l-4 border-blue-900 bg-blue-50/50 rounded-r-xl overflow-hidden">
+                <div class="border-l-4 border-blue-900 dark:border-blue-600 bg-blue-50/50 dark:bg-blue-900/20 rounded-r-xl overflow-hidden">
                     <div class="px-5 py-4">
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-900 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                 </svg>
                             </div>
                             <div>
-                                <span class="font-semibold text-gray-800">Change Password</span>
-                                <p class="text-xs text-gray-500 mt-0.5">Leave blank to keep current password</p>
+                                <span class="font-semibold text-gray-800 dark:text-gray-200">Change Password</span>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Leave blank to keep current password</p>
                             </div>
                         </div>
 
                         <div class="space-y-4">
                             <div>
-                                <span class="block text-sm font-semibold text-gray-700 mb-2">
+                                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Current Password 
-                                    <span class="text-red-500" v-if="password">*</span>
+                                    <span class="text-red-500 dark:text-red-400" v-if="password">*</span>
                                 </span>
                                 <input 
                                     v-model="currentPassword" 
                                     type="password" 
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white outline-none transition-all"
+                                    class="w-full border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all"
                                     :placeholder="password ? 'Required to change password' : 'Only required if changing password'"
                                     :required="!!password"
                                 />
@@ -136,21 +136,21 @@ onMounted(fetchProfile)
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <span class="block text-sm font-semibold text-gray-700 mb-2">New Password</span>
+                                    <span class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">New Password</span>
                                     <input 
                                         v-model="password" 
                                         type="password" 
-                                        class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white outline-none transition-all"
+                                        class="w-full border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all"
                                         placeholder="Enter new password"
                                     />
                                 </div>
 
                                 <div>
-                                    <span class="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</span>
+                                    <span class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Confirm Password</span>
                                     <input 
                                         v-model="confirmPassword" 
                                         type="password" 
-                                        class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white outline-none transition-all"
+                                        class="w-full border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 focus:bg-white dark:focus:bg-gray-600 outline-none transition-all"
                                         placeholder="Confirm new password"
                                     />
                                 </div>
@@ -159,7 +159,7 @@ onMounted(fetchProfile)
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end pt-4 border-t border-gray-100">
+                <div class="flex items-center justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
                     <button 
                         type="submit" 
                         :disabled="isLoading"
