@@ -100,16 +100,16 @@ onUnmounted(() => {
 <template>
     <div class="p-4 md:p-6 max-w-7xl mx-auto">
         <!-- Header -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mb-6 overflow-hidden">
             <div class="h-1 bg-green-500"></div>
             <div class="p-4 md:p-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">Dashboard</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">Overview of your proxy management</p>
+                        <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Overview of your proxy management</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-full">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">
                             <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                             System Online
                         </span>
@@ -123,7 +123,7 @@ onUnmounted(() => {
             <!-- Proxy Hosts Card -->
             <div 
                 @click="router.push('/hosts')"
-                class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10 hover:-translate-y-1"
+                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10 hover:-translate-y-1"
             >
                 <div class="h-1 bg-green-500"></div>
                 <div class="p-5">
@@ -133,19 +133,19 @@ onUnmounted(() => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
                             </svg>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-green-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-green-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900 mb-1">{{ stats.totalHosts }}</div>
-                    <h3 class="text-gray-500 font-medium text-sm">Proxy Hosts</h3>
+                    <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">{{ stats.totalHosts }}</div>
+                    <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm">Proxy Hosts</h3>
                 </div>
             </div>
 
             <!-- Redirections Card -->
             <div 
                 @click="router.push('/hosts')"
-                class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 hover:-translate-y-1"
+                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 hover:-translate-y-1"
             >
                 <div class="h-1 bg-yellow-500"></div>
                 <div class="p-5">
@@ -155,19 +155,19 @@ onUnmounted(() => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900 mb-1">{{ stats.totalRedirects }}</div>
-                    <h3 class="text-gray-500 font-medium text-sm">Redirections</h3>
+                    <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">{{ stats.totalRedirects }}</div>
+                    <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm">Redirections</h3>
                 </div>
             </div>
 
             <!-- Streams Card -->
             <div 
                 @click="router.push('/streams')"
-                class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 hover:-translate-y-1"
+                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/10 hover:-translate-y-1"
             >
                 <div class="h-1 bg-yellow-500"></div>
                 <div class="p-5">
@@ -177,19 +177,19 @@ onUnmounted(() => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900 mb-1">{{ stats.totalStreams }}</div>
-                    <h3 class="text-gray-500 font-medium text-sm">Streams</h3>
+                    <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">{{ stats.totalStreams }}</div>
+                    <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm">Streams</h3>
                 </div>
             </div>
 
             <!-- Certificates Card -->
             <div 
                 @click="router.push('/certificates')"
-                class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 hover:-translate-y-1"
+                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 hover:-translate-y-1"
             >
                 <div class="h-1 bg-orange-500"></div>
                 <div class="p-5">
@@ -199,19 +199,19 @@ onUnmounted(() => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900 mb-1">{{ stats.totalCertificates }}</div>
-                    <h3 class="text-gray-500 font-medium text-sm">SSL Certificates</h3>
+                    <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">{{ stats.totalCertificates }}</div>
+                    <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm">SSL Certificates</h3>
                 </div>
             </div>
 
             <!-- Access Lists Card -->
             <div 
                 @click="router.push('/access-lists')"
-                class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10 hover:-translate-y-1"
+                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10 hover:-translate-y-1"
             >
                 <div class="h-1 bg-red-500"></div>
                 <div class="p-5">
@@ -221,12 +221,12 @@ onUnmounted(() => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 group-hover:text-red-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-red-500 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900 mb-1">{{ stats.totalAccessLists }}</div>
-                    <h3 class="text-gray-500 font-medium text-sm">Access Lists</h3>
+                    <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">{{ stats.totalAccessLists }}</div>
+                    <h3 class="text-gray-500 dark:text-gray-400 font-medium text-sm">Access Lists</h3>
                 </div>
             </div>
         </div>

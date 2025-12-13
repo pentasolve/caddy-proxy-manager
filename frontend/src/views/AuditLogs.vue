@@ -1,24 +1,24 @@
-﻿<template>
+<template>
     <div class="p-4 md:p-6 max-w-6xl mx-auto">
         <!-- Header -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mb-6 overflow-hidden">
             <div class="h-1 bg-purple-500"></div>
             <div class="p-4 md:p-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">Audit Logs</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">Track system activities and user actions</p>
+                        <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">Audit Logs</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Track system activities and user actions</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
                         <div class="relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             <input 
                                 v-model="searchQuery" 
                                 type="text" 
                                 placeholder="Search logs..." 
-                                class="w-full sm:w-64 pl-9 pr-4 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none"
+                                class="w-full sm:w-64 pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none"
                             />
                         </div>
                         <button @click="fetchLogs" :disabled="isLoading" class="px-4 py-2 text-sm font-medium text-white bg-purple-500 hover:bg-purple-600 disabled:opacity-70 rounded-xl shadow-lg shadow-purple-500/25 flex items-center justify-center gap-1.5 transition-all whitespace-nowrap">
@@ -36,7 +36,7 @@
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
             <button 
                 @click="activeFilter = null" 
-                :class="['relative bg-white rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === null ? 'border-purple-500 ring-2 ring-purple-500/20' : 'border-gray-200']"
+                :class="['relative bg-white dark:bg-gray-800 rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === null ? 'border-purple-500 ring-2 ring-purple-500/20' : 'border-gray-200 dark:border-gray-700']"
             >
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
@@ -45,14 +45,14 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        <p class="text-lg font-bold text-gray-900">{{ stats.total }}</p>
-                        <p class="text-xs text-gray-500">All Logs</p>
+                        <p class="text-lg font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ stats.total }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">All Logs</p>
                     </div>
                 </div>
             </button>
             <button 
                 @click="activeFilter = 'create'" 
-                :class="['relative bg-white rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'create' ? 'border-green-500 ring-2 ring-green-500/20' : 'border-gray-200']"
+                :class="['relative bg-white dark:bg-gray-800 rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'create' ? 'border-green-500 ring-2 ring-green-500/20' : 'border-gray-200 dark:border-gray-700']"
             >
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/25">
@@ -61,14 +61,14 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        <p class="text-lg font-bold text-gray-900">{{ stats.created }}</p>
-                        <p class="text-xs text-gray-500">Created</p>
+                        <p class="text-lg font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ stats.created }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Created</p>
                     </div>
                 </div>
             </button>
             <button 
                 @click="activeFilter = 'update'" 
-                :class="['relative bg-white rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'update' ? 'border-yellow-500 ring-2 ring-yellow-500/20' : 'border-gray-200']"
+                :class="['relative bg-white dark:bg-gray-800 rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'update' ? 'border-yellow-500 ring-2 ring-yellow-500/20' : 'border-gray-200 dark:border-gray-700']"
             >
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-yellow-500 flex items-center justify-center shadow-lg shadow-yellow-500/25">
@@ -77,14 +77,14 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        <p class="text-lg font-bold text-gray-900">{{ stats.updated }}</p>
-                        <p class="text-xs text-gray-500">Updated</p>
+                        <p class="text-lg font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ stats.updated }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Updated</p>
                     </div>
                 </div>
             </button>
             <button 
                 @click="activeFilter = 'delete'" 
-                :class="['relative bg-white rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'delete' ? 'border-red-500 ring-2 ring-red-500/20' : 'border-gray-200']"
+                :class="['relative bg-white dark:bg-gray-800 rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'delete' ? 'border-red-500 ring-2 ring-red-500/20' : 'border-gray-200 dark:border-gray-700']"
             >
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center shadow-lg shadow-red-500/25">
@@ -93,14 +93,14 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        <p class="text-lg font-bold text-gray-900">{{ stats.deleted }}</p>
-                        <p class="text-xs text-gray-500">Deleted</p>
+                        <p class="text-lg font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ stats.deleted }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Deleted</p>
                     </div>
                 </div>
             </button>
             <button 
                 @click="activeFilter = 'login'" 
-                :class="['relative bg-white rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'login' ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-gray-200']"
+                :class="['relative bg-white dark:bg-gray-800 rounded-xl border p-3 transition-all duration-300 hover:shadow-md group', activeFilter === 'login' ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-gray-200 dark:border-gray-700']"
             >
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/25">
@@ -109,31 +109,31 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        <p class="text-lg font-bold text-gray-900">{{ stats.logins }}</p>
-                        <p class="text-xs text-gray-500">Logins</p>
+                        <p class="text-lg font-bold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ stats.logins }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Logins</p>
                     </div>
                 </div>
             </button>
         </div>
 
         <!-- List -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
             <!-- Loading Skeleton -->
-            <div v-if="isLoading" class="divide-y divide-gray-100">
+            <div v-if="isLoading" class="divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
                 <div v-for="i in 5" :key="i" class="p-4 animate-pulse">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+                        <div class="w-10 h-10 rounded-xl bg-gray-200 dark:bg-gray-700"></div>
                         <div class="flex-1">
-                            <div class="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
-                            <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+                            <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-2"></div>
+                            <div class="h-3 bg-gray-100 dark:bg-gray-700/50 rounded w-2/3"></div>
                         </div>
-                        <div class="h-8 w-24 bg-gray-200 rounded-lg"></div>
+                        <div class="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Empty State: No Logs -->
-            <div v-else-if="logs.length === 0 && !isLoading" class="p-12 text-center">
+            <div v-else-if="logs.length === 0 && !isLoading" class="p-12 text-center bg-white dark:bg-gray-800">
                 <div class="mb-4">
                     <div class="mx-auto w-20 h-20 rounded-2xl bg-purple-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,30 +141,30 @@
                         </svg>
                     </div>
                 </div>
-                <p class="text-lg font-semibold text-gray-900 mb-1">No audit logs yet</p>
-                <p class="text-sm text-gray-500">Activity logs will appear here as actions are performed</p>
+                <p class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">No audit logs yet</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">Activity logs will appear here as actions are performed</p>
             </div>
             
             <!-- Empty State: No Search Results -->
-            <div v-else-if="filteredLogs.length === 0 && !isLoading" class="p-12 text-center">
+            <div v-else-if="filteredLogs.length === 0 && !isLoading" class="p-12 text-center bg-white dark:bg-gray-800">
                 <div class="mb-4">
-                    <div class="mx-auto w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="mx-auto w-20 h-20 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
                 </div>
-                <p class="text-lg font-semibold text-gray-900 mb-1">No results found</p>
-                <p class="text-sm text-gray-500">No logs match "<span class="font-medium text-purple-600">{{ searchQuery }}</span>"</p>
+                <p class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">No results found</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">No logs match "<span class="font-medium text-purple-600">{{ searchQuery }}</span>"</p>
             </div>
 
             <!-- Log Items -->
             <template v-else>
                 <!-- Desktop View -->
-                <div class="hidden lg:block divide-y divide-gray-100">
+                <div class="hidden lg:block divide-y divide-gray-100 dark:divide-gray-700">
                     <TransitionGroup name="log-list">
                     <div v-for="(log, index) in filteredLogs" :key="log.id" 
-                        class="group p-4 bg-white hover:bg-gray-50/50 transition-all duration-200"
+                        class="group p-4 bg-white dark:bg-gray-800 hover:bg-gray-50/50 transition-all duration-200"
                         :style="{ animationDelay: `${index * 50}ms` }">
                         <div class="flex items-center gap-4">
                             <!-- Icon with gradient background based on action -->
@@ -198,11 +198,11 @@
                             <!-- Content -->
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2 mb-0.5">
-                                    <p class="text-sm font-semibold text-gray-900">{{ formatAction(log.action) }}</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 dark:text-gray-100">{{ formatAction(log.action) }}</p>
                                     <span class="text-gray-300">—</span>
-                                    <p class="text-sm text-gray-600 truncate">{{ getLogSummary(log.details) }}</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 truncate">{{ getLogSummary(log.details) }}</p>
                                 </div>
-                                <div class="flex items-center gap-3 text-xs text-gray-500">
+                                <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">
                                     <span class="flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -223,7 +223,7 @@
 
                             <!-- Action Button -->
                             <div class="flex-shrink-0">
-                                <button @click="openDetails(log)" class="px-3 py-1.5 text-xs font-medium text-purple-600 hover:text-white hover:bg-purple-500 border border-purple-200 hover:border-transparent rounded-lg transition-all duration-200">
+                                <button @click="openDetails(log)" class="px-3 py-1.5 text-xs font-medium text-purple-600 dark:text-purple-400 hover:text-white hover:bg-purple-500 border border-purple-200 dark:border-purple-700 hover:border-transparent rounded-lg transition-all duration-200">
                                     View Details
                                 </button>
                             </div>
@@ -233,7 +233,7 @@
                 </div>
 
                 <!-- Mobile View -->
-                <div class="lg:hidden divide-y divide-gray-100">
+                <div class="lg:hidden divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
                     <TransitionGroup name="log-list">
                     <div v-for="(log, index) in filteredLogs" :key="log.id" class="p-4" :style="{ animationDelay: `${index * 50}ms` }">
                         <div class="flex items-start gap-3">
@@ -256,13 +256,13 @@
                                         log.action.includes('delete') ? 'bg-red-100 text-red-700' :
                                         log.action.includes('update') || log.action.includes('change') ? 'bg-yellow-100 text-yellow-700' :
                                         log.action.includes('login') ? 'bg-blue-100 text-blue-700' :
-                                        'bg-gray-100 text-gray-700'
+                                        'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                                     ]">
                                         {{ formatAction(log.action) }}
                                     </span>
                                 </div>
-                                <p class="text-sm text-gray-700 mb-2 line-clamp-2">{{ getLogSummary(log.details) }}</p>
-                                <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-2">{{ getLogSummary(log.details) }}</p>
+                                <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">
                                     <span>{{ formatDate(log.created_at) }}</span>
                                     <span class="w-1 h-1 rounded-full bg-gray-300"></span>
                                     <span>{{ log.username }}</span>
@@ -283,7 +283,7 @@
         <!-- Details Modal -->
         <Transition name="modal">
         <div v-if="selectedLog" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" @click.self="selectedLog = null">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-gray-200 transform transition-all animate-modal-in">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-gray-200 dark:border-gray-700 transform transition-all animate-modal-in">
                 <!-- Modal Header with Action-based Color -->
                 <div :class="[
                     'px-6 py-5 flex justify-between items-center relative overflow-hidden',
@@ -341,7 +341,7 @@
                     <!-- Quick Info Cards -->
                     <div class="grid grid-cols-2 gap-3">
                         <!-- User Card -->
-                        <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-xl p-4 border border-purple-100">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-900/20 dark:to-purple-800/10 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
                             <div class="flex items-center gap-3">
                                 <div :class="[
                                     'w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-lg',
@@ -354,23 +354,23 @@
                                     {{ selectedLog.username.charAt(0).toUpperCase() }}
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-xs text-purple-600 font-medium">User</p>
-                                    <p class="text-gray-900 font-semibold truncate">{{ selectedLog.username }}</p>
+                                    <p class="text-xs text-purple-600 dark:text-purple-400 font-medium">User</p>
+                                    <p class="text-gray-900 dark:text-gray-100 font-semibold truncate">{{ selectedLog.username }}</p>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- IP Card -->
-                        <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-xl p-4 border border-gray-200">
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100/50 dark:from-gray-800 dark:to-gray-700/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gray-200 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div class="w-10 h-10 rounded-xl bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                     </svg>
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-xs text-gray-500 font-medium">IP Address</p>
-                                    <p class="text-gray-900 font-mono text-sm truncate">{{ selectedLog.ip_address }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">IP Address</p>
+                                    <p class="text-gray-900 dark:text-gray-100 font-mono text-sm truncate">{{ selectedLog.ip_address }}</p>
                                 </div>
                             </div>
                         </div>
@@ -378,17 +378,17 @@
 
                     <!-- Timeline Style Date -->
                     <div class="relative">
-                        <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-4 border border-gray-100">
-                            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-gray-900 font-medium">{{ formatDateFull(selectedLog.created_at) }}</p>
-                                <p class="text-purple-600 text-sm">{{ getRelativeTime(selectedLog.created_at) }}</p>
+                                <p class="text-gray-900 dark:text-gray-100 font-medium">{{ formatDateFull(selectedLog.created_at) }}</p>
+                                <p class="text-purple-600 dark:text-purple-400 text-sm">{{ getRelativeTime(selectedLog.created_at) }}</p>
                             </div>
-                            <button @click="copyToClipboard(formatDateFull(selectedLog.created_at))" class="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all flex-shrink-0" title="Copy">
+                            <button @click="copyToClipboard(formatDateFull(selectedLog.created_at))" class="p-2 text-gray-400 dark:text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-all flex-shrink-0" title="Copy">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
@@ -399,23 +399,23 @@
                     <!-- User Agent with Better Styling -->
                     <div v-if="selectedLog.user_agent">
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Device Information</span>
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Device Information</span>
                         </div>
-                        <div class="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
-                            <div class="flex items-center gap-2 p-3 border-b border-gray-100">
-                                <span v-if="parsedUserAgent.browser" class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-xs font-medium">
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                            <div class="flex items-center gap-2 p-3 border-b border-gray-100 dark:border-gray-700">
+                                <span v-if="parsedUserAgent.browser" class="inline-flex items-center gap-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded-lg text-xs font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                     </svg>
                                     {{ parsedUserAgent.browser }}
                                 </span>
-                                <span v-if="parsedUserAgent.os" class="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-medium">
+                                <span v-if="parsedUserAgent.os" class="inline-flex items-center gap-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-lg text-xs font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                     {{ parsedUserAgent.os }}
                                 </span>
-                                <span v-if="parsedUserAgent.device" class="inline-flex items-center gap-1.5 bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-medium">
+                                <span v-if="parsedUserAgent.device" class="inline-flex items-center gap-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-3 py-1.5 rounded-lg text-xs font-medium">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
@@ -423,7 +423,7 @@
                                 </span>
                             </div>
                             <div class="p-3">
-                                <p class="text-gray-500 text-xs font-mono leading-relaxed" style="word-break: break-word;">{{ selectedLog.user_agent }}</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs font-mono leading-relaxed" style="word-break: break-word;">{{ selectedLog.user_agent }}</p>
                             </div>
                         </div>
                     </div>
@@ -431,33 +431,33 @@
                     <!-- Details Section -->
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Activity Details</span>
-                            <button @click="copyToClipboard(selectedLog.details)" class="text-xs text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Activity Details</span>
+                            <button @click="copyToClipboard(selectedLog.details)" class="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                 </svg>
                                 Copy
                             </button>
                         </div>
-                        <div class="bg-gray-900 rounded-xl p-4 text-sm text-gray-100 font-mono whitespace-pre-wrap overflow-x-auto border border-gray-700">{{ selectedLog.details }}</div>
+                        <div class="bg-gray-900 dark:bg-gray-950 rounded-xl p-4 text-sm text-gray-100 dark:text-gray-300 font-mono whitespace-pre-wrap overflow-x-auto border border-gray-700 dark:border-gray-800">{{ selectedLog.details }}</div>
                     </div>
 
                     <!-- Parsed Information with Better Styling -->
                     <div v-if="parsedDetails && Object.keys(parsedDetails).length > 0">
-                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Extracted Data</span>
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Extracted Data</span>
                         <div class="mt-2 grid gap-2">
                             <div v-for="(value, key) in parsedDetails" :key="key" 
-                                class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-100 hover:border-purple-200 hover:bg-purple-50/50 transition-all group">
-                                <span class="text-sm text-gray-600 group-hover:text-purple-600 transition-colors">{{ formatKey(key as string) }}</span>
-                                <span class="text-sm font-semibold text-gray-900 bg-white px-3 py-1 rounded-lg border border-gray-200 shadow-sm">{{ value }}</span>
+                                class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg px-4 py-3 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-all group">
+                                <span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{{ formatKey(key as string) }}</span>
+                                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">{{ value }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Modal Footer -->
-                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                    <div class="text-xs text-gray-500">
+                <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 dark:text-gray-400 dark:text-gray-500">
                         Log ID: <span class="font-mono font-medium">{{ selectedLog.id }}</span>
                     </div>
                     <button @click="selectedLog = null" class="px-5 py-2 text-sm font-medium text-white bg-purple-500 hover:bg-purple-600 rounded-xl transition-all shadow-lg shadow-purple-500/25">

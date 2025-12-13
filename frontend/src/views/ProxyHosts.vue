@@ -791,15 +791,15 @@ onUnmounted(() => {
   <div>
 
     <!-- Header -->
-    <div class="bg-white rounded-t-xl p-5 border-b border-gray-200 shadow-sm overflow-hidden relative">
+    <div class="bg-white dark:bg-gray-800 rounded-t-xl p-5 border-b border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden relative">
         <!-- Gradient accent bar -->
         <div class="absolute top-0 left-0 right-0 h-1 bg-green-500"></div>
         
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div class="flex items-center gap-3">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Proxy Hosts</h2>
-                    <p class="text-sm text-gray-500 mt-1">Route traffic to your backend services</p>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 tracking-tight">Proxy Hosts</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Route traffic to your backend services</p>
                 </div>
             </div>
             <div class="flex items-center gap-3 w-full lg:w-auto">
@@ -808,9 +808,9 @@ onUnmounted(() => {
                         v-model="searchQuery" 
                         type="text" 
                         placeholder="Search hosts..." 
-                        class="w-full lg:w-64 pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all bg-gray-50/50"
+                        class="w-full lg:w-64 pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all bg-gray-50/50 dark:bg-gray-700 dark:text-gray-100"
                     />
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
@@ -826,7 +826,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Column Headers -->
-    <div class="bg-gray-50/80 px-5 py-3 border-b text-xs font-bold text-gray-500 uppercase tracking-wider border-x border-gray-200 hidden lg:grid lg:grid-cols-12 gap-4">
+    <div class="bg-gray-50/80 dark:bg-gray-700/80 px-5 py-3 border-b text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-x border-gray-200 dark:border-gray-700 hidden lg:grid lg:grid-cols-12 gap-4">
         <div class="col-span-3 pl-14">Source</div>
         <div class="col-span-3">Destination</div>
         <div class="col-span-2">SSL</div>
@@ -835,7 +835,7 @@ onUnmounted(() => {
     </div>
 
     <!-- List -->
-    <div class="bg-white rounded-b-xl shadow-lg border-x border-b border-gray-200">
+    <div class="bg-white dark:bg-gray-800 rounded-b-xl shadow-lg border-x border-b border-gray-200 dark:border-gray-700">
         <div v-if="hosts.length === 0" class="p-12 text-center">
             <div class="mb-4">
                 <div class="mx-auto w-20 h-20 rounded-2xl bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/30">
@@ -844,8 +844,8 @@ onUnmounted(() => {
                     </svg>
                 </div>
             </div>
-            <p class="text-lg font-bold text-gray-700 mb-2">No proxy hosts configured</p>
-            <p class="text-sm text-gray-400 mb-6">Create a proxy host to route traffic to your backend services</p>
+            <p class="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">No proxy hosts configured</p>
+            <p class="text-sm text-gray-400 dark:text-gray-500 mb-6">Create a proxy host to route traffic to your backend services</p>
             <button @click="openAddModal" class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-green-500/25 transition-all text-sm font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -855,17 +855,17 @@ onUnmounted(() => {
         </div>
         <div v-else-if="filteredHosts.length === 0" class="p-12 text-center">
             <div class="mb-4">
-                <div class="mx-auto w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="mx-auto w-20 h-20 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
-            <p class="text-lg font-bold text-gray-700 mb-2">No results found</p>
-            <p class="text-sm text-gray-400">No hosts match "{{ searchQuery }}"</p>
+            <p class="text-lg font-bold text-gray-700 dark:text-gray-300 mb-2">No results found</p>
+            <p class="text-sm text-gray-400 dark:text-gray-500">No hosts match "{{ searchQuery }}"</p>
         </div>
 
-        <div v-for="host in filteredHosts" :key="host.id" class="group p-4 border-b border-gray-100 hover:bg-gray-50/50 transition-all duration-200 last:border-b-0">
+        <div v-for="host in filteredHosts" :key="host.id" class="group p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 last:border-b-0">
             <!-- Desktop Layout -->
             <div class="hidden lg:grid lg:grid-cols-12 gap-4 items-center">
                 <!-- Source -->
@@ -876,8 +876,8 @@ onUnmounted(() => {
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <p class="text-sm font-bold text-gray-900 truncate">{{ host.domain }}</p>
-                        <a :href="(host.ssl ? 'https://' : 'http://') + host.domain" target="_blank" class="text-xs text-blue-500 hover:underline flex items-center gap-1">
+                        <p class="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">{{ host.domain }}</p>
+                        <a :href="(host.ssl ? 'https://' : 'http://') + host.domain" target="_blank" class="text-xs text-blue-500 dark:text-blue-400 hover:underline flex items-center gap-1">
                             Visit site
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -890,28 +890,28 @@ onUnmounted(() => {
                 <div class="col-span-3">
                     <!-- Redirect -->
                     <template v-if="host.type === 'redirect'">
-                        <div class="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-lg px-3 py-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg px-3 py-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-500 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
-                            <span class="font-mono text-xs text-gray-700 break-all">{{ host.target || '-' }}</span>
-                            <span class="text-[10px] font-semibold text-orange-600 bg-orange-100 px-1.5 py-0.5 rounded">{{ host.forwarding_code || 301 }}</span>
+                            <span class="font-mono text-xs text-gray-700 dark:text-gray-300 break-all">{{ host.target || '-' }}</span>
+                            <span class="text-[10px] font-semibold text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/20 px-1.5 py-0.5 rounded">{{ host.forwarding_code || 301 }}</span>
                         </div>
                     </template>
                     
                     <!-- Single Target (Reverse Proxy) -->
                     <template v-else-if="!host.upstreams || host.upstreams.length === 0">
-                        <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-3 py-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                             </svg>
-                            <span class="font-mono text-xs text-gray-700 break-all">{{ host.target || '-' }}</span>
+                            <span class="font-mono text-xs text-gray-700 dark:text-gray-300 break-all">{{ host.target || '-' }}</span>
                         </div>
                     </template>
                     
                     <!-- Load Balancer -->
                     <template v-else>
-                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-2.5 space-y-2">
+                        <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-2.5 space-y-2">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2">
                                     <div class="flex items-center justify-center w-6 h-6 bg-purple-500 rounded-md">
@@ -919,24 +919,24 @@ onUnmounted(() => {
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
                                     </div>
-                                    <span class="text-xs font-bold text-purple-700">Load Balancer</span>
+                                    <span class="text-xs font-bold text-purple-700 dark:text-purple-300">Load Balancer</span>
                                 </div>
-                                <span class="text-[10px] font-semibold text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">
+                                <span class="text-[10px] font-semibold text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20 px-2 py-0.5 rounded-full">
                                     {{ host.upstreams.length }} {{ host.upstreams.length === 1 ? 'server' : 'servers' }}
                                 </span>
                             </div>
                             <div class="space-y-1">
                                 <div v-for="(upstream, idx) in host.upstreams.slice(0, expandedHosts.includes(host.id) ? host.upstreams.length : 2)" 
                                      :key="idx" 
-                                     class="flex items-center gap-2 bg-white/70 backdrop-blur-sm px-2 py-1 rounded-md border border-purple-100">
+                                     class="flex items-center gap-2 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm px-2 py-1 rounded-md border border-purple-100 dark:border-purple-800">
                                     <div class="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                                    <span class="font-mono text-[11px] text-gray-700 break-all flex-1">{{ upstream.target }}</span>
-                                    <span v-if="upstream.weight > 1" class="text-[9px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">w:{{ upstream.weight }}</span>
+                                    <span class="font-mono text-[11px] text-gray-700 dark:text-gray-300 break-all flex-1">{{ upstream.target }}</span>
+                                    <span v-if="upstream.weight > 1" class="text-[9px] text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">w:{{ upstream.weight }}</span>
                                 </div>
                             </div>
                             <button v-if="host.upstreams.length > 2" 
                                     @click.stop="toggleExpandHost(host.id)" 
-                                    class="w-full text-[10px] text-purple-600 hover:text-purple-800 font-medium py-1 bg-purple-100/50 hover:bg-purple-100 rounded-md transition-colors flex items-center justify-center gap-1">
+                                    class="w-full text-[10px] text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 font-medium py-1 bg-purple-100/50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-md transition-colors flex items-center justify-center gap-1">
                                 <svg v-if="!expandedHosts.includes(host.id)" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
@@ -952,7 +952,7 @@ onUnmounted(() => {
                 <!-- SSL -->
                 <div class="col-span-2">
                     <div v-if="host.ssl_status === 'generating'" 
-                         class="inline-flex items-center gap-1.5 bg-yellow-50 border border-yellow-200 text-yellow-700 px-2.5 py-1 rounded-full text-[10px] font-semibold animate-pulse">
+                         class="inline-flex items-center gap-1.5 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-2.5 py-1 rounded-full text-[10px] font-semibold animate-pulse">
                         <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -960,7 +960,7 @@ onUnmounted(() => {
                         Generating
                     </div>
                     <div v-else-if="host.ssl_status === 'failed'" class="flex items-center gap-1.5">
-                        <div class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
+                        <div class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
                              @click.stop="sslErrorPinned = sslErrorPinned === host.id ? null : host.id">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -989,7 +989,7 @@ onUnmounted(() => {
                     </div>
                     <!-- Fallback SSL: ACME failed but using Self-Signed -->
                     <div v-else-if="host.ssl && host.ssl_provider === 'auto' && host.ssl_actual_provider === 'selfsigned'" 
-                         class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 text-orange-700 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
+                         class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer" 
                          @click.stop="sslErrorPinned = sslErrorPinned === host.id ? null : host.id">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -1009,7 +1009,7 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div v-else-if="host.ssl" 
-                         class="inline-flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 px-2.5 py-1 rounded-full text-[10px] font-semibold">
+                         class="inline-flex items-center gap-1.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-2.5 py-1 rounded-full text-[10px] font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
@@ -1027,14 +1027,14 @@ onUnmounted(() => {
                 <!-- Access -->
                 <div class="col-span-2">
                     <div v-if="host.access_list_id" 
-                         class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-700 px-2.5 py-1 rounded-full text-[10px] font-semibold">
+                         class="inline-flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 px-2.5 py-1 rounded-full text-[10px] font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                         {{ getAccessListName(host.access_list_id) }}
                     </div>
                     <div v-else 
-                         class="inline-flex items-center gap-1.5 bg-gray-100 border border-gray-200 text-gray-600 px-2.5 py-1 rounded-full text-[10px] font-semibold">
+                         class="inline-flex items-center gap-1.5 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 px-2.5 py-1 rounded-full text-[10px] font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -1048,12 +1048,12 @@ onUnmounted(() => {
                         <span :class="host.is_active ? 'translate-x-6' : 'translate-x-1'" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm" />
                     </button>
                     <div class="flex items-center gap-1">
-                        <button @click="openEditModal(host)" class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all" title="Edit">
+                        <button @click="openEditModal(host)" class="p-2 text-gray-400 dark:text-gray-500 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-all" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                         </button>
-                        <button @click="deleteHost(host.id)" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Delete">
+                        <button @click="deleteHost(host.id)" class="p-2 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all" title="Delete">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
@@ -1077,8 +1077,8 @@ onUnmounted(() => {
                                 <!-- Animated Icon Container -->
                                 <div class="relative flex-shrink-0">
                                     <div :class="host.is_active 
-                                        ? 'bg-green-500 shadow-lg shadow-green-200' 
-                                        : 'bg-gray-300'" 
+                                        ? 'bg-green-500 shadow-lg shadow-green-200 dark:shadow-green-900/20' 
+                                        : 'bg-gray-300 dark:bg-gray-600'" 
                                         class="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -1087,16 +1087,16 @@ onUnmounted(() => {
                                     <!-- Online pulse indicator -->
                                     <span v-if="host.is_active" class="absolute -top-1 -right-1 flex h-3 w-3">
                                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-white"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-white dark:border-gray-800"></span>
                                     </span>
                                 </div>
                                 
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-2">
-                                        <p class="text-base font-bold text-gray-900 truncate">{{ host.domain }}</p>
+                                        <p class="text-base font-bold text-gray-900 dark:text-gray-100 truncate">{{ host.domain }}</p>
                                     </div>
                                     <div class="flex items-center gap-2 mt-0.5">
-                                        <span :class="host.is_active ? 'text-green-600 bg-green-50' : 'text-gray-500 bg-gray-100'" 
+                                        <span :class="host.is_active ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20' : 'text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700'" 
                                               class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
                                             {{ host.is_active ? '● Online' : '○ Offline' }}
                                         </span>
@@ -1121,44 +1121,44 @@ onUnmounted(() => {
                         </div>
 
                         <!-- Destination Card -->
-                        <div class="bg-gray-50 rounded-xl p-3 border border-gray-200/50">
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-3 border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center gap-2 mb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
-                                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Destination</span>
+                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Destination</span>
                             </div>
                             
                             <template v-if="host.type === 'redirect'">
-                                <div class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 shadow-sm border border-orange-100">
+                                <div class="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 shadow-sm border border-orange-100 dark:border-orange-800">
                                     <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                         </svg>
                                     </div>
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-[10px] text-orange-600 font-semibold uppercase tracking-wide">Redirect {{ host.forwarding_code || 301 }}</p>
-                                        <p class="font-mono text-sm text-gray-800 truncate">{{ host.target || '-' }}</p>
+                                        <p class="text-[10px] text-orange-600 dark:text-orange-400 font-semibold uppercase tracking-wide">Redirect {{ host.forwarding_code || 301 }}</p>
+                                        <p class="font-mono text-sm text-gray-800 dark:text-gray-200 truncate">{{ host.target || '-' }}</p>
                                     </div>
                                 </div>
                             </template>
                             
                             <template v-else-if="!host.upstreams || host.upstreams.length === 0">
-                                <div class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 shadow-sm border border-blue-100">
+                                <div class="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg px-3 py-2 shadow-sm border border-blue-100 dark:border-blue-800">
                                     <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
                                         </svg>
                                     </div>
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-[10px] text-blue-600 font-semibold uppercase tracking-wide">Reverse Proxy</p>
-                                        <p class="font-mono text-sm text-gray-800 truncate">{{ host.target || '-' }}</p>
+                                        <p class="text-[10px] text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wide">Reverse Proxy</p>
+                                        <p class="font-mono text-sm text-gray-800 dark:text-gray-200 truncate">{{ host.target || '-' }}</p>
                                     </div>
                                 </div>
                             </template>
                             
                             <template v-else>
-                                <div class="bg-white rounded-lg px-3 py-2 shadow-sm border border-purple-100">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg px-3 py-2 shadow-sm border border-purple-100 dark:border-purple-800">
                                     <div class="flex items-center gap-2 mb-2">
                                         <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1166,17 +1166,17 @@ onUnmounted(() => {
                                             </svg>
                                         </div>
                                         <div class="flex-1">
-                                            <p class="text-[10px] text-purple-600 font-semibold uppercase tracking-wide">Load Balancer</p>
-                                            <p class="text-xs text-gray-500">{{ host.upstreams.length }} upstream servers</p>
+                                            <p class="text-[10px] text-purple-600 dark:text-purple-400 font-semibold uppercase tracking-wide">Load Balancer</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ host.upstreams.length }} upstream servers</p>
                                         </div>
                                     </div>
                                     <div class="space-y-1 pl-10">
                                         <div v-for="(upstream, idx) in host.upstreams.slice(0, 2)" :key="idx" 
                                              class="flex items-center gap-2 text-xs">
                                             <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                                            <span class="font-mono text-gray-600 truncate">{{ upstream.target }}</span>
+                                            <span class="font-mono text-gray-600 dark:text-gray-300 truncate">{{ upstream.target }}</span>
                                         </div>
-                                        <p v-if="host.upstreams.length > 2" class="text-[10px] text-purple-500 font-medium pl-3.5">
+                                        <p v-if="host.upstreams.length > 2" class="text-[10px] text-purple-500 dark:text-purple-400 font-medium pl-3.5">
                                             +{{ host.upstreams.length - 2 }} more servers
                                         </p>
                                     </div>
@@ -1188,7 +1188,7 @@ onUnmounted(() => {
                         <div class="flex flex-wrap gap-2">
                             <!-- SSL Pill -->
                             <div v-if="host.ssl_status === 'generating'" 
-                                 class="inline-flex items-center gap-1.5 bg-yellow-50 border border-yellow-200 text-yellow-700 px-3 py-1.5 rounded-full text-xs font-semibold animate-pulse">
+                                 class="inline-flex items-center gap-1.5 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-3 py-1.5 rounded-full text-xs font-semibold animate-pulse">
                                 <svg class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -1196,7 +1196,7 @@ onUnmounted(() => {
                                 SSL Generating
                             </div>
                             <div v-else-if="host.ssl_status === 'failed'" class="flex items-center gap-2">
-                                <div class="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                <div class="inline-flex items-center gap-1.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-3 py-1.5 rounded-full text-xs font-semibold">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -1212,7 +1212,7 @@ onUnmounted(() => {
                             </div>
                             <!-- Fallback SSL: ACME failed but using Self-Signed -->
                             <div v-else-if="host.ssl && host.ssl_provider === 'auto' && host.ssl_actual_provider === 'selfsigned'" 
-                                 class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-orange-50 border border-orange-200 text-orange-700 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer"
+                                 class="ssl-error-tooltip group/ssl relative inline-flex items-center gap-1.5 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer"
                                  @click.stop="sslErrorPinned = sslErrorPinned === host.id ? null : host.id">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -1226,14 +1226,14 @@ onUnmounted(() => {
                                 </div>
                             </div>
                             <div v-else-if="host.ssl" 
-                                 class="inline-flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                 class="inline-flex items-center gap-1.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-full text-xs font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                 </svg>
                                 {{ getSSLProviderName(host.ssl_provider, host.ssl_actual_provider) }}
                             </div>
                             <div v-else 
-                                 class="inline-flex items-center gap-1.5 bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                 class="inline-flex items-center gap-1.5 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 px-3 py-1.5 rounded-full text-xs font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
                                 </svg>
@@ -1242,14 +1242,14 @@ onUnmounted(() => {
 
                             <!-- Access Pill -->
                             <div v-if="host.access_list_id" 
-                                 class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                 class="inline-flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded-full text-xs font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                                 {{ getAccessListName(host.access_list_id) }}
                             </div>
                             <div v-else 
-                                 class="inline-flex items-center gap-1.5 bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                 class="inline-flex items-center gap-1.5 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 px-3 py-1.5 rounded-full text-xs font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -1258,7 +1258,7 @@ onUnmounted(() => {
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
                             <button @click="openEditModal(host)" 
                                     class="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1267,7 +1267,7 @@ onUnmounted(() => {
                                 Edit
                             </button>
                             <button @click="deleteHost(host.id)" 
-                                    class="flex items-center justify-center gap-2 bg-white hover:bg-red-50 text-red-600 font-semibold py-2.5 px-4 rounded-xl border border-gray-200 hover:border-red-200 transition-all duration-200 active:scale-[0.98]">
+                                    class="flex items-center justify-center gap-2 bg-white dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-semibold py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-600 hover:border-red-200 dark:hover:border-red-800 transition-all duration-200 active:scale-[0.98]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
@@ -1281,7 +1281,7 @@ onUnmounted(() => {
 
     <!-- Modal -->
     <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform transition-all overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg transform transition-all overflow-hidden max-h-[90vh] flex flex-col">
         <!-- Modal Header -->
         <div class="bg-green-500 px-6 py-4 flex justify-between items-center flex-shrink-0">
             <div class="flex items-center gap-3">
@@ -1302,20 +1302,20 @@ onUnmounted(() => {
         <div class="p-6 space-y-4 overflow-y-auto flex-1">
             
             <!-- Tabs -->
-            <div class="bg-gray-100 rounded-xl p-1 flex gap-1">
-                <button @click="activeTab = 'details'" :class="activeTab === 'details' ? 'bg-white shadow-sm text-green-600' : 'text-gray-600 hover:text-gray-800'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-1 flex gap-1">
+                <button @click="activeTab = 'details'" :class="activeTab === 'details' ? 'bg-white dark:bg-gray-800 shadow-sm text-green-600' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
                     Details
                 </button>
-                <button @click="activeTab = 'ssl'" :class="activeTab === 'ssl' ? 'bg-white shadow-sm text-green-600' : 'text-gray-600 hover:text-gray-800'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
+                <button @click="activeTab = 'ssl'" :class="activeTab === 'ssl' ? 'bg-white dark:bg-gray-800 shadow-sm text-green-600' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
                     SSL
                 </button>
-                <button v-if="newHost.type === 'loadbalancer'" @click="activeTab = 'loadbalancer'" :class="activeTab === 'loadbalancer' ? 'bg-white shadow-sm text-green-600' : 'text-gray-600 hover:text-gray-800'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
+                <button v-if="newHost.type === 'loadbalancer'" @click="activeTab = 'loadbalancer'" :class="activeTab === 'loadbalancer' ? 'bg-white dark:bg-gray-800 shadow-sm text-green-600' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
                     Upstreams
                 </button>
-                <button @click="activeTab = 'locations'" :class="activeTab === 'locations' ? 'bg-white shadow-sm text-green-600' : 'text-gray-600 hover:text-gray-800'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
+                <button @click="activeTab = 'locations'" :class="activeTab === 'locations' ? 'bg-white dark:bg-gray-800 shadow-sm text-green-600' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
                     Locations
                 </button>
-                <button @click="activeTab = 'advanced'" :class="activeTab === 'advanced' ? 'bg-white shadow-sm text-green-600' : 'text-gray-600 hover:text-gray-800'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
+                <button @click="activeTab = 'advanced'" :class="activeTab === 'advanced' ? 'bg-white dark:bg-gray-800 shadow-sm text-green-600' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'" class="flex-1 py-2 px-3 rounded-lg font-medium text-sm transition-all">
                     Advanced
                 </button>
             </div>
@@ -1323,7 +1323,7 @@ onUnmounted(() => {
             <!-- Details Tab -->
             <div v-if="activeTab === 'details'" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Domain Names <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Domain Names <span class="text-red-500">*</span></label>
                     <Combobox 
                         v-model="newHost.domain" 
                         :options="hostOptions" 
@@ -1331,12 +1331,12 @@ onUnmounted(() => {
                         color="green"
                         @blur="newHost.domain = cleanDomain(newHost.domain)"
                     />
-                    <p class="text-xs text-gray-500 mt-1">e.g., example.com, sub.example.com, *.example.com</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">e.g., example.com, sub.example.com, *.example.com</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Scheme</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Scheme</label>
                         <CustomSelect 
                             :modelValue="'http'" 
                             :options="schemeOptions" 
@@ -1345,7 +1345,7 @@ onUnmounted(() => {
                         />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
                         <CustomSelect 
                             v-model="newHost.type" 
                             :options="typeOptions" 
@@ -1355,18 +1355,18 @@ onUnmounted(() => {
                 </div>
 
                 <div v-if="newHost.type === 'proxy'">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Forward Hostname / IP <span class="text-red-500">*</span></label>
-                    <input v-model="newHost.target" @blur="newHost.target = cleanTarget(newHost.target)" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400" placeholder="127.0.0.1:8080">
-                    <p class="text-xs text-gray-500 mt-1">Format: hostname:port or ip:port (e.g., example.com:8080, 192.168.1.1:80)</p>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Forward Hostname / IP <span class="text-red-500">*</span></label>
+                    <input v-model="newHost.target" @blur="newHost.target = cleanTarget(newHost.target)" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400 dark:hover:border-gray-500" placeholder="127.0.0.1:8080">
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Format: hostname:port or ip:port (e.g., example.com:8080, 192.168.1.1:80)</p>
                 </div>
 
                 <div v-if="newHost.type === 'redirect'">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Redirect To <span class="text-red-500">*</span></label>
-                    <input v-model="newHost.target" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400" placeholder="https://example.com">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Redirect To <span class="text-red-500">*</span></label>
+                    <input v-model="newHost.target" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400 dark:hover:border-gray-500" placeholder="https://example.com">
                 </div>
 
                 <div v-if="newHost.type === 'redirect'">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Forwarding Code</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Forwarding Code</label>
                     <CustomSelect 
                         v-model="newHost.forwarding_code" 
                         :options="forwardingCodeOptions" 
@@ -1375,7 +1375,7 @@ onUnmounted(() => {
                 </div>
 
                 <div v-if="newHost.type !== 'redirect'">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Access List</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Access List</label>
                     <CustomSelect 
                         v-model="newHost.access_list_id" 
                         :options="accessListOptions" 
@@ -1387,7 +1387,7 @@ onUnmounted(() => {
             <!-- SSL Tab -->
             <div v-if="activeTab === 'ssl'" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">SSL Provider</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">SSL Provider</label>
                     <CustomSelect 
                         v-model="newHost.ssl_provider" 
                         :options="sslProviderOptions" 
@@ -1397,31 +1397,31 @@ onUnmounted(() => {
 
                 <div v-if="newHost.ssl_provider !== 'none'" class="space-y-2">
                     <!-- Custom Certificate Upload -->
-                    <div v-if="newHost.ssl_provider === 'custom'" class="pl-4 border-l-2 border-green-100 space-y-3 mb-3">
+                    <div v-if="newHost.ssl_provider === 'custom'" class="pl-4 border-l-2 border-green-100 dark:border-green-800 space-y-3 mb-3">
                         <div class="flex gap-4 mb-2">
                             <label class="flex items-center cursor-pointer">
                                 <input type="radio" name="cert_mode" v-model="useExistingCert" :value="false" class="mr-2 text-green-600 focus:ring-green-500">
-                                <span class="text-sm text-gray-700">Upload New</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">Upload New</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="radio" name="cert_mode" v-model="useExistingCert" :value="true" class="mr-2 text-green-600 focus:ring-green-500">
-                                <span class="text-sm text-gray-700">Use Existing</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">Use Existing</span>
                             </label>
                         </div>
 
                         <div v-if="!useExistingCert">
                             <div class="mb-2">
-                                <label class="block text-xs font-medium text-gray-600 mb-1">Certificate File (.pem/.crt)</label>
-                                <input type="file" @change="handleCertUpload" accept=".pem,.crt,.cer" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 transition-colors">
+                                <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Certificate File (.pem/.crt)</label>
+                                <input type="file" @change="handleCertUpload" accept=".pem,.crt,.cer" class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-green-50 dark:file:bg-green-900/20 file:text-green-700 dark:file:text-green-400 hover:file:bg-green-100 dark:hover:file:bg-green-900/30 transition-colors">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1">Private Key File (.key)</label>
-                                <input type="file" @change="handleKeyUpload" accept=".key" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 transition-colors">
+                                <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Private Key File (.key)</label>
+                                <input type="file" @change="handleKeyUpload" accept=".key" class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-green-50 dark:file:bg-green-900/20 file:text-green-700 dark:file:text-green-400 hover:file:bg-green-100 dark:hover:file:bg-green-900/30 transition-colors">
                             </div>
                         </div>
 
                         <div v-else>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Select Certificate</label>
+                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Select Certificate</label>
                             <CustomSelect 
                                 v-model="newHost.certificate_id" 
                                 :options="certificateOptions" 
@@ -1436,27 +1436,27 @@ onUnmounted(() => {
                                 type="checkbox" 
                                 v-model="newHost.use_dns_challenge" 
                                 :disabled="isDnsChallengeDisabled"
-                                class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                            <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Use DNS Challenge</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Use DNS Challenge</span>
                         </label>
                         
                         <!-- Warning when ZeroSSL selected but EAB not configured -->
-                        <div v-if="isDnsChallengeDisabled" class="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                        <div v-if="isDnsChallengeDisabled" class="mt-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
                             <div class="flex items-start gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
-                                <div class="text-sm text-amber-700">
+                                <div class="text-sm text-amber-700 dark:text-amber-400">
                                     <p class="font-medium">ZeroSSL EAB Credentials Required</p>
-                                    <p class="text-xs mt-1">DNS Challenge for ZeroSSL requires EAB credentials. <button @click="goToSettings" class="underline font-medium hover:text-amber-900">Configure in Settings → DNS</button></p>
+                                    <p class="text-xs mt-1">DNS Challenge for ZeroSSL requires EAB credentials. <button @click="goToSettings" class="underline font-medium hover:text-amber-900 dark:hover:text-amber-300">Configure in Settings → DNS</button></p>
                                 </div>
                             </div>
                         </div>
 
-                        <div v-if="newHost.use_dns_challenge" class="pl-7 space-y-3 border-l-2 border-green-100 mt-2">
+                        <div v-if="newHost.use_dns_challenge" class="pl-7 space-y-3 border-l-2 border-green-100 dark:border-green-800 mt-2">
                             <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1">DNS Provider</label>
+                                <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">DNS Provider</label>
                                 <CustomSelect 
                                     v-model="newHost.dns_provider" 
                                     :options="dnsProviderOptions" 
@@ -1464,22 +1464,22 @@ onUnmounted(() => {
                                 />
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-600 mb-1">API Token / Credentials</label>
-                                <input v-model="newHost.dns_token" type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400" placeholder="Enter API Token">
+                                <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">API Token / Credentials</label>
+                                <input v-model="newHost.dns_token" type="password" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all duration-200 shadow-sm hover:border-gray-400 dark:hover:border-gray-500" placeholder="Enter API Token">
                             </div>
                         </div>
                     </div>
 
                     <label class="flex items-center cursor-pointer group">
-                        <input type="checkbox" v-model="newHost.hsts_enabled" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
-                        <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Force SSL (HSTS)</span>
+                        <input type="checkbox" v-model="newHost.hsts_enabled" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-colors">
+                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Force SSL (HSTS)</span>
                     </label>
                 </div>
             </div>
 
             <!-- Load Balancer Tab -->
             <div v-if="activeTab === 'loadbalancer'" class="space-y-4">
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800">
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-300">
                     <div class="flex items-start gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1490,7 +1490,7 @@ onUnmounted(() => {
 
                 <!-- Load Balancing Policy -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Load Balancing Policy</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Load Balancing Policy</label>
                     <CustomSelect
                         v-model="newHost.load_balancing"
                         :options="loadBalancingOptions"
@@ -1501,22 +1501,22 @@ onUnmounted(() => {
                 <!-- Upstreams List -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
-                        <label class="block text-sm font-medium text-gray-700">Upstream Servers</label>
-                        <span class="text-xs text-gray-500">{{ newHost.upstreams.length }} server(s)</span>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Upstream Servers</label>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ newHost.upstreams.length }} server(s)</span>
                     </div>
                     
-                    <div v-if="newHost.upstreams.length === 0" class="text-center text-gray-500 py-6 text-sm border-2 border-dashed border-gray-300 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div v-if="newHost.upstreams.length === 0" class="text-center text-gray-500 dark:text-gray-400 py-6 text-sm border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
                         </svg>
                         <p>No upstream servers defined</p>
-                        <p class="text-xs text-gray-400 mt-1">Add servers below for load balancing</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Add servers below for load balancing</p>
                     </div>
                     
-                    <div v-for="(upstream, index) in newHost.upstreams" :key="index" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-2">
+                    <div v-for="(upstream, index) in newHost.upstreams" :key="index" class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600 space-y-2">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-medium text-gray-500">Server #{{ index + 1 }}</span>
-                            <button @click="removeUpstream(index)" class="text-red-500 hover:text-red-700 p-1">
+                            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Server #{{ index + 1 }}</span>
+                            <button @click="removeUpstream(index)" class="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
@@ -1524,22 +1524,22 @@ onUnmounted(() => {
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="col-span-2">
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Target Address</label>
-                                <input v-model="upstream.target" @blur="upstream.target = cleanTarget(upstream.target)" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="192.168.1.100:8080">
-                                <p class="text-xs text-gray-400 mt-0.5">hostname:port or ip:port</p>
+                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Target Address</label>
+                                <input v-model="upstream.target" @blur="upstream.target = cleanTarget(upstream.target)" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="192.168.1.100:8080">
+                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">hostname:port or ip:port</p>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Weight</label>
-                                <input v-model.number="upstream.weight" type="number" min="1" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="1">
+                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Weight</label>
+                                <input v-model.number="upstream.weight" type="number" min="1" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="1">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Max Fails</label>
-                                <input v-model.number="upstream.max_fails" type="number" min="0" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="0">
+                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Max Fails</label>
+                                <input v-model.number="upstream.max_fails" type="number" min="0" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="0">
                             </div>
                         </div>
                     </div>
                     
-                    <button @click="addUpstream" class="w-full text-sm text-green-600 hover:text-green-700 font-medium flex items-center justify-center gap-1 py-2 border-2 border-dashed border-green-300 rounded-lg hover:border-green-400 hover:bg-green-50 transition-colors">
+                    <button @click="addUpstream" class="w-full text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center justify-center gap-1 py-2 border-2 border-dashed border-green-300 dark:border-green-700 rounded-lg hover:border-green-400 dark:hover:border-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
@@ -1548,26 +1548,26 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Health Check Settings -->
-                <div class="border border-gray-200 rounded-lg overflow-hidden">
-                    <div class="bg-gray-50 px-4 py-3 flex items-center justify-between">
+                <div class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span class="font-medium text-gray-700">Health Checks</span>
+                            <span class="font-medium text-gray-700 dark:text-gray-300">Health Checks</span>
                         </div>
                         <button @click="newHost.health_check = !newHost.health_check" :class="newHost.health_check ? 'bg-green-500' : 'bg-gray-300'" class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                             <span :class="newHost.health_check ? 'translate-x-4' : 'translate-x-1'" class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform" />
                         </button>
                     </div>
-                    <div v-if="newHost.health_check" class="p-4 space-y-3 border-t border-gray-200">
+                    <div v-if="newHost.health_check" class="p-4 space-y-3 border-t border-gray-200 dark:border-gray-600">
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Health Check Path</label>
-                            <input v-model="newHost.health_check_path" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="/health">
+                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Health Check Path</label>
+                            <input v-model="newHost.health_check_path" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="/health">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Check Interval</label>
-                            <input v-model="newHost.health_check_interval" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="10s">
+                            <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Check Interval</label>
+                            <input v-model="newHost.health_check_interval" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="10s">
                         </div>
                     </div>
                 </div>
@@ -1575,28 +1575,28 @@ onUnmounted(() => {
                 <!-- Retry Settings -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Try Duration</label>
-                        <input v-model="newHost.lb_try_duration" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="5s">
-                        <p class="text-xs text-gray-400 mt-1">How long to try backends</p>
+                        <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Try Duration</label>
+                        <input v-model="newHost.lb_try_duration" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="5s">
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">How long to try backends</p>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Try Interval</label>
-                        <input v-model="newHost.lb_try_interval" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="250ms">
-                        <p class="text-xs text-gray-400 mt-1">Interval between retries</p>
+                        <label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Try Interval</label>
+                        <input v-model="newHost.lb_try_interval" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="250ms">
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Interval between retries</p>
                     </div>
                 </div>
             </div>
 
             <!-- Locations Tab -->
             <div v-if="activeTab === 'locations'" class="space-y-4">
-                <div v-if="newHost.locations.length === 0" class="text-center text-gray-500 py-4 text-sm">
+                <div v-if="newHost.locations.length === 0" class="text-center text-gray-500 dark:text-gray-400 py-4 text-sm">
                     No custom locations defined.
                 </div>
-                <div v-for="(loc, index) in newHost.locations" :key="index" class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-3">
+                <div v-for="(loc, index) in newHost.locations" :key="index" class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600 space-y-3">
                     <!-- Location Header -->
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-gray-700">Location {{ index + 1 }}</span>
-                        <button @click="removeLocation(index)" class="text-red-500 hover:text-red-700 p-1">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Location {{ index + 1 }}</span>
+                        <button @click="removeLocation(index)" class="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
@@ -1605,33 +1605,33 @@ onUnmounted(() => {
                     
                     <!-- Path -->
                     <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Path</label>
-                        <input v-model="loc.path" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="/api">
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Path</label>
+                        <input v-model="loc.path" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="/api">
                     </div>
                     
                     <!-- Mode Toggle: Single Target vs Load Balancer -->
                     <div class="flex items-center gap-4">
                         <label class="flex items-center cursor-pointer">
                             <input type="radio" :name="'loc-mode-' + index" :checked="!loc.upstreams || loc.upstreams.length === 0" @change="setLocationMode(index, 'single')" class="mr-2">
-                            <span class="text-sm text-gray-700">Single Target</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Single Target</span>
                         </label>
                         <label class="flex items-center cursor-pointer">
                             <input type="radio" :name="'loc-mode-' + index" :checked="loc.upstreams && loc.upstreams.length > 0" @change="setLocationMode(index, 'loadbalancer')" class="mr-2">
-                            <span class="text-sm text-gray-700">Load Balancer</span>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Load Balancer</span>
                         </label>
                     </div>
                     
                     <!-- Single Target -->
                     <div v-if="!loc.upstreams || loc.upstreams.length === 0">
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Target</label>
-                        <input v-model="loc.target" @blur="loc.target = cleanTarget(loc.target)" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:border-green-500" placeholder="localhost:3000">
-                        <p class="text-xs text-gray-400 mt-0.5">Format: hostname:port or ip:port</p>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Target</label>
+                        <input v-model="loc.target" @blur="loc.target = cleanTarget(loc.target)" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 focus:outline-none focus:border-green-500" placeholder="localhost:3000">
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Format: hostname:port or ip:port</p>
                     </div>
                     
                     <!-- Load Balancer Settings -->
-                    <div v-else class="space-y-3 border-t border-gray-200 pt-3">
+                    <div v-else class="space-y-3 border-t border-gray-200 dark:border-gray-600 pt-3">
                         <div>
-                            <label class="block text-xs font-medium text-gray-500 mb-1">LB Policy</label>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">LB Policy</label>
                             <CustomSelect
                                 v-model="loc.load_balancing"
                                 :options="[
@@ -1649,17 +1649,17 @@ onUnmounted(() => {
                         
                         <!-- Upstream Servers -->
                         <div class="space-y-2">
-                            <label class="block text-xs font-medium text-gray-500">Upstream Servers</label>
-                            <div v-for="(up, upIdx) in loc.upstreams" :key="upIdx" class="flex gap-2 items-center bg-white p-2 rounded border border-gray-200">
-                                <input v-model="up.target" @blur="up.target = cleanTarget(up.target)" class="flex-1 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-green-500" placeholder="10.0.0.1:8080">
-                                <input v-model.number="up.weight" type="number" min="1" class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-green-500" placeholder="Weight" title="Weight">
-                                <button @click="removeLocationUpstream(index, upIdx)" class="text-red-500 hover:text-red-700 p-1">
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400">Upstream Servers</label>
+                            <div v-for="(up, upIdx) in loc.upstreams" :key="upIdx" class="flex gap-2 items-center bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-600">
+                                <input v-model="up.target" @blur="up.target = cleanTarget(up.target)" class="flex-1 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:border-green-500" placeholder="10.0.0.1:8080">
+                                <input v-model.number="up.weight" type="number" min="1" class="w-16 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:border-green-500" placeholder="Weight" title="Weight">
+                                <button @click="removeLocationUpstream(index, upIdx)" class="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                             </div>
-                            <button @click="addLocationUpstream(index)" class="text-xs text-green-600 hover:text-green-700 font-medium flex items-center gap-1">
+                            <button @click="addLocationUpstream(index)" class="text-xs text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
@@ -1669,24 +1669,24 @@ onUnmounted(() => {
                         
                         <!-- Health Check Toggle -->
                         <label class="flex items-center cursor-pointer">
-                            <input type="checkbox" v-model="loc.health_check" class="mr-2 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300">
-                            <span class="text-xs text-gray-700">Enable Health Check</span>
+                            <input type="checkbox" v-model="loc.health_check" class="mr-2 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600">
+                            <span class="text-xs text-gray-700 dark:text-gray-300">Enable Health Check</span>
                         </label>
                         
                         <!-- Health Check Settings -->
                         <div v-if="loc.health_check" class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Path</label>
-                                <input v-model="loc.health_check_path" class="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-green-500" placeholder="/health">
+                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Path</label>
+                                <input v-model="loc.health_check_path" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:border-green-500" placeholder="/health">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Interval</label>
-                                <input v-model="loc.health_check_interval" class="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-green-500" placeholder="10s">
+                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Interval</label>
+                                <input v-model="loc.health_check_interval" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:border-green-500" placeholder="10s">
                             </div>
                         </div>
                     </div>
                 </div>
-                <button @click="addLocation" class="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1">
+                <button @click="addLocation" class="text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -1696,26 +1696,26 @@ onUnmounted(() => {
 
             <!-- Advanced Tab -->
             <div v-if="activeTab === 'advanced'" class="space-y-4">
-                <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-3">
-                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <input type="checkbox" v-model="newHost.block_exploits" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
-                        <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Block Common Exploits</span>
+                <div class="bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600 space-y-3">
+                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" v-model="newHost.block_exploits" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-colors">
+                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Block Common Exploits</span>
                     </label>
-                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <input type="checkbox" v-model="newHost.cache_assets" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
-                        <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Cache Assets</span>
+                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" v-model="newHost.cache_assets" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-colors">
+                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Cache Assets</span>
                     </label>
-                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <input type="checkbox" v-model="newHost.websockets" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 transition-colors">
-                        <span class="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">Websockets Support</span>
+                    <label class="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" v-model="newHost.websockets" class="mr-3 w-4 h-4 rounded text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 transition-colors">
+                        <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">Websockets Support</span>
                     </label>
                 </div>
             </div>
 
         </div>
 
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end gap-3 flex-shrink-0">
-          <button @click="showModal = false" class="px-5 py-2.5 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-100 transition-all font-medium">Cancel</button>
+        <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-t border-gray-200 dark:border-gray-600 flex justify-end gap-3 flex-shrink-0">
+          <button @click="showModal = false" class="px-5 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all font-medium">Cancel</button>
           <button @click="saveHost" class="px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl shadow-lg shadow-green-500/25 transition-all font-semibold">Save Host</button>
         </div>
       </div>

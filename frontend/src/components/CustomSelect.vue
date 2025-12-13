@@ -31,45 +31,45 @@ const colorClasses = computed(() => {
   const map = {
     pink: {
       focus: 'focus:ring-pink-500/50 focus:!border-pink-500',
-      hover: 'hover:bg-pink-50',
-      text: 'text-pink-900',
-      bg: 'bg-pink-50',
-      icon: 'text-pink-600'
+      hover: 'hover:bg-pink-50 dark:hover:bg-pink-900/20',
+      text: 'text-pink-900 dark:text-pink-300',
+      bg: 'bg-pink-50 dark:bg-pink-900/30',
+      icon: 'text-pink-600 dark:text-pink-400'
     },
     green: {
       focus: 'focus:ring-green-500/50 focus:!border-green-500',
-      hover: 'hover:bg-green-50',
-      text: 'text-green-900',
-      bg: 'bg-green-50',
-      icon: 'text-green-600'
+      hover: 'hover:bg-green-50 dark:hover:bg-green-900/20',
+      text: 'text-green-900 dark:text-green-300',
+      bg: 'bg-green-50 dark:bg-green-900/30',
+      icon: 'text-green-600 dark:text-green-400'
     },
     purple: {
       focus: 'focus:ring-purple-500/50 focus:!border-purple-500',
-      hover: 'hover:bg-purple-50',
-      text: 'text-purple-900',
-      bg: 'bg-purple-50',
-      icon: 'text-purple-600'
+      hover: 'hover:bg-purple-50 dark:hover:bg-purple-900/20',
+      text: 'text-purple-900 dark:text-purple-300',
+      bg: 'bg-purple-50 dark:bg-purple-900/30',
+      icon: 'text-purple-600 dark:text-purple-400'
     },
     blue: {
       focus: 'focus:ring-blue-500/50 focus:!border-blue-500',
-      hover: 'hover:bg-blue-50',
-      text: 'text-blue-900',
-      bg: 'bg-blue-50',
-      icon: 'text-blue-600'
+      hover: 'hover:bg-blue-50 dark:hover:bg-blue-900/20',
+      text: 'text-blue-900 dark:text-blue-300',
+      bg: 'bg-blue-50 dark:bg-blue-900/30',
+      icon: 'text-blue-600 dark:text-blue-400'
     },
     red: {
       focus: 'focus:ring-red-500/50 focus:!border-red-500',
-      hover: 'hover:bg-red-50',
-      text: 'text-red-900',
-      bg: 'bg-red-50',
-      icon: 'text-red-600'
+      hover: 'hover:bg-red-50 dark:hover:bg-red-900/20',
+      text: 'text-red-900 dark:text-red-300',
+      bg: 'bg-red-50 dark:bg-red-900/30',
+      icon: 'text-red-600 dark:text-red-400'
     },
     orange: {
       focus: 'focus:ring-orange-500/50 focus:!border-orange-500',
-      hover: 'hover:bg-orange-50',
-      text: 'text-orange-900',
-      bg: 'bg-orange-50',
-      icon: 'text-orange-600'
+      hover: 'hover:bg-orange-50 dark:hover:bg-orange-900/20',
+      text: 'text-orange-900 dark:text-orange-300',
+      bg: 'bg-orange-50 dark:bg-orange-900/30',
+      icon: 'text-orange-600 dark:text-orange-400'
     }
   }
   return map[props.color] || map.green
@@ -150,15 +150,15 @@ onUnmounted(() => {
         'w-full text-left border rounded-lg px-4 py-2.5 flex items-center justify-between transition-all duration-200 shadow-sm outline-none',
         colorClasses.focus,
         disabled 
-          ? 'bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed' 
-          : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400 focus:ring-2'
+          ? 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed' 
+          : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:border-gray-400 dark:hover:border-gray-500 focus:ring-2'
       ]"
       :disabled="disabled"
     >
       <span class="block truncate">{{ selectedLabel }}</span>
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
-        class="h-5 w-5 text-gray-400 transition-transform duration-200"
+        class="h-5 w-5 text-gray-400 dark:text-gray-500 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
         fill="none" 
         viewBox="0 0 24 24" 
@@ -182,9 +182,9 @@ onUnmounted(() => {
             v-if="isOpen" 
             ref="dropdownRef"
             :style="dropdownStyle"
-            class="fixed mt-1 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            class="fixed mt-1 bg-white dark:bg-gray-800 shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black dark:ring-gray-700 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
         >
-            <ul class="divide-y divide-gray-100">
+            <ul class="divide-y divide-gray-100 dark:divide-gray-700">
             <li 
                 v-for="option in normalizedOptions" 
                 :key="option.value"
@@ -192,7 +192,7 @@ onUnmounted(() => {
                 class="cursor-pointer select-none relative py-2.5 pl-4 pr-9 transition-colors duration-150"
                 :class="[
                     colorClasses.hover,
-                    modelValue === option.value ? [colorClasses.text, colorClasses.bg, 'font-medium'] : 'text-gray-900'
+                    modelValue === option.value ? [colorClasses.text, colorClasses.bg, 'font-medium'] : 'text-gray-900 dark:text-gray-200'
                 ]"
             >
                 <span class="block truncate">

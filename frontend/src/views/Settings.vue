@@ -91,27 +91,27 @@ onMounted(async () => {
 <template>
     <div>
         <!-- Header -->
-        <div class="bg-white rounded-t-xl p-5 border-b border-gray-200 shadow-sm overflow-hidden relative">
+        <div class="bg-white rounded-t-xl p-5 border-b border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden relative">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gray-500"></div>
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 tracking-tight">Settings</h2>
-                    <p class="text-sm text-gray-500 mt-1">Configure your Caddy Proxy Manager instance</p>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">Settings</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Configure your Caddy Proxy Manager instance</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-b-xl shadow-lg border-x border-b border-gray-200">
+        <div class="bg-white dark:bg-gray-800 rounded-b-xl shadow-lg border-x border-b border-gray-200 dark:border-gray-700">
             <!-- Tabs -->
-            <div class="border-b border-gray-200">
+            <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="flex px-6 -mb-px">
                     <button 
                         @click="activeTab = 'general'"
                         :class="[
                             'py-4 px-4 text-sm font-medium border-b-2 transition-colors',
                             activeTab === 'general' 
-                                ? 'border-gray-700 text-gray-700' 
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                ? 'border-gray-700 text-gray-700 dark:text-gray-200 dark:text-gray-300' 
+                                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:border-gray-600'
                         ]"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -126,7 +126,7 @@ onMounted(async () => {
                             'py-4 px-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2',
                             activeTab === 'dns' 
                                 ? 'border-amber-600 text-amber-600' 
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:border-gray-600'
                         ]"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,8 +141,8 @@ onMounted(async () => {
             <div class="p-6">
                 <!-- General Tab -->
                 <div v-show="activeTab === 'general'">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+                        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-gray-600 flex items-center justify-center shadow-lg shadow-gray-600/20">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -150,23 +150,23 @@ onMounted(async () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-800">Default Page Configuration</h3>
-                                    <p class="text-sm text-gray-500 mt-0.5">HTML content served on port 80 when no proxy matches</p>
+                                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 dark:text-gray-200">Default Page Configuration</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">HTML content served on port 80 when no proxy matches</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
                             <div class="mb-5">
-                                <span class="block text-sm font-semibold text-gray-700 mb-2">HTML Content</span>
+                                <span class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">HTML Content</span>
                                 <textarea 
                                     v-model="defaultPageHtml" 
                                     rows="16" 
-                                    class="w-full font-mono text-sm border border-gray-200 rounded-xl p-4 bg-gray-50/50 focus:ring-2 focus:ring-gray-500/20 focus:border-gray-500 focus:bg-white outline-none transition-all resize-y min-h-[300px]"
+                                    class="w-full font-mono text-sm border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gray-50/50 dark:bg-gray-700 focus:ring-2 focus:ring-gray-500/20 focus:border-gray-500 focus:bg-white outline-none transition-all resize-y min-h-[300px]"
                                     placeholder="<!DOCTYPE html>..."
                                 ></textarea>
                             </div>
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                                <p class="text-xs text-gray-400">Changes are applied immediately after saving</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                                <p class="text-xs text-gray-400 dark:text-gray-500">Changes are applied immediately after saving</p>
                                 <button @click="saveDefaultPage" :disabled="isLoading" class="bg-gray-700 hover:bg-gray-800 text-white px-6 py-2.5 rounded-xl shadow-lg transition-all font-semibold disabled:opacity-50 flex items-center gap-2">
                                     <svg v-if="isLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
@@ -179,8 +179,8 @@ onMounted(async () => {
 
                 <!-- DNS Tab -->
                 <div v-show="activeTab === 'dns'">
-                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                        <div class="px-6 py-4 bg-amber-50 border-b border-amber-200">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+                        <div class="px-6 py-4 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-amber-600 flex items-center justify-center shadow-lg shadow-amber-600/20">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,21 +189,21 @@ onMounted(async () => {
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2">
-                                        <h3 class="text-lg font-bold text-gray-800">ZeroSSL EAB Credentials</h3>
+                                        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 dark:text-gray-200">ZeroSSL EAB Credentials</h3>
                                         <span v-if="zerosslEabConfigured" class="px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700 rounded-full">Configured</span>
                                         <span v-else class="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 rounded-full">Not Configured</span>
                                     </div>
-                                    <p class="text-sm text-gray-500 mt-0.5">Required for ZeroSSL DNS challenge support</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Required for ZeroSSL DNS challenge support</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
-                            <div id="zerossl" class="mb-5 p-4 bg-blue-50 border border-blue-200 rounded-xl transition-all duration-300">
+                            <div id="zerossl" class="mb-5 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl transition-all duration-300">
                                 <div class="flex items-start gap-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <div class="text-sm text-blue-700">
+                                    <div class="text-sm text-blue-700 dark:text-blue-300">
                                         <p class="font-medium">How to get EAB credentials:</p>
                                         <ol class="mt-1 ml-4 list-decimal space-y-1">
                                             <li>Go to <a href="https://app.zerossl.com/developer" target="_blank" class="underline font-medium">ZeroSSL Developer Portal</a></li>
@@ -216,16 +216,16 @@ onMounted(async () => {
                             </div>
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">EAB Key ID (KID)</label>
-                                    <input v-model="zerosslEabKid" type="text" class="w-full font-mono text-sm border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white outline-none transition-all" placeholder="e.g. abc123def456..." />
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">EAB Key ID (KID)</label>
+                                    <input v-model="zerosslEabKid" type="text" class="w-full font-mono text-sm border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white outline-none transition-all" placeholder="e.g. abc123def456..." />
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">EAB HMAC Key</label>
-                                    <input v-model="zerosslEabHmacKey" type="password" class="w-full font-mono text-sm border border-gray-200 rounded-xl px-4 py-3 bg-gray-50/50 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white outline-none transition-all" placeholder="Enter new HMAC key to update..." />
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">EAB HMAC Key</label>
+                                    <input v-model="zerosslEabHmacKey" type="password" class="w-full font-mono text-sm border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 bg-gray-50/50 dark:bg-gray-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white outline-none transition-all" placeholder="Enter new HMAC key to update..." />
                                     <p class="text-xs text-gray-400 mt-1">Leave empty to keep existing key</p>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
+                            <div class="flex items-center justify-between pt-4 mt-4 border-t border-gray-100 dark:border-gray-600">
                                 <button @click="saveZeroSSLEAB" :disabled="isLoadingEab" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2.5 rounded-xl shadow-lg transition-all font-semibold disabled:opacity-50 flex items-center gap-2">
                                     <svg v-if="isLoadingEab" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                     <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
