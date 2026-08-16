@@ -313,6 +313,7 @@ func RegisterRoutes(r *gin.Engine) {
 			}
 
 			host := input.Host
+			host.DNSToken = strings.TrimSpace(host.DNSToken)
 			for i := range input.Locations {
 				input.Locations[i].ID = 0
 				for j := range input.Locations[i].Upstreams {
@@ -420,7 +421,7 @@ func RegisterRoutes(r *gin.Engine) {
 			host.ForwardingCode = input.ForwardingCode
 			host.UseDNSChallenge = input.UseDNSChallenge
 			host.DNSProvider = input.DNSProvider
-			host.DNSToken = input.DNSToken
+			host.DNSToken = strings.TrimSpace(input.DNSToken)
 			host.AccessListID = input.AccessListID
 			host.CertificateID = input.CertificateID
 			host.IsActive = input.IsActive
@@ -645,7 +646,7 @@ func RegisterRoutes(r *gin.Engine) {
 				email := c.PostForm("email")
 				useDNS := c.PostForm("use_dns_challenge") == "true"
 				dnsProvider := c.PostForm("dns_provider")
-				dnsToken := c.PostForm("dns_token")
+				dnsToken := strings.TrimSpace(c.PostForm("dns_token"))
 
 				cert := models.Certificate{
 					Domain:    domain,

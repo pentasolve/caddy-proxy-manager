@@ -6,15 +6,20 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
 
 func Init() {
 	var err error
-	DB, err = gorm.Open(sqlite.Open("/data/caddy-proxy-manager.db"), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open("/data/caddy-proxy-manager.db"), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Error),
+	})
 	if err != nil {
-		DB, err = gorm.Open(sqlite.Open("caddy-proxy-manager.db"), &gorm.Config{})
+		DB, err = gorm.Open(sqlite.Open("caddy-proxy-manager.db"), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Error),
+		})
 		if err != nil {
 			panic("failed to connect database")
 		}

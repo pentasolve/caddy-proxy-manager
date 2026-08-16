@@ -557,7 +557,7 @@ func GenerateConfig() (*CaddyConfig, error) {
 				case "cloudflare":
 					providerConfig = map[string]interface{}{
 						"name":      "cloudflare",
-						"api_token": host.DNSToken,
+						"api_token": strings.TrimSpace(host.DNSToken),
 					}
 				}
 
